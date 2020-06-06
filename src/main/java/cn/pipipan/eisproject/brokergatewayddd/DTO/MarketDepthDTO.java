@@ -1,11 +1,12 @@
 package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
 @Document
 public class MarketDepthDTO {
     class Composite{
@@ -41,10 +42,6 @@ public class MarketDepthDTO {
     public MarketDepthDTO() {
     }
 
-    public List<Composite> getBuyers() {
-        return buyers;
-    }
-
     public void addBuyer(int count, int price){
         this.buyers.add(new Composite(count, price));
     }
@@ -53,23 +50,4 @@ public class MarketDepthDTO {
         this.sellers.add(new Composite(count, price));
     }
 
-    public void setBuyers(List<Composite> buyers) {
-        this.buyers = buyers;
-    }
-
-    public List<Composite> getSellers() {
-        return sellers;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setSellers(List<Composite> sellers) {
-        this.sellers = sellers;
-    }
 }

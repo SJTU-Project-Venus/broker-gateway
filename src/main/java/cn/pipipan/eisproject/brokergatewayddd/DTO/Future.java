@@ -2,19 +2,20 @@ package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.IssueFutureCommand;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.IssueFutureEvent;
+import lombok.Data;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
-
+@Data
 @Aggregate
 public class Future {
     @AggregateIdentifier
     String id;
     String marketDepthId;
-    String description;
+    String name;
 
     @CommandHandler
     public Future(IssueFutureCommand issueFutureCommand){
@@ -34,29 +35,5 @@ public class Future {
 
     protected Future(){
 
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getMarketDepthId() {
-        return marketDepthId;
-    }
-
-    public void setMarketDepthId(String marketDepthId) {
-        this.marketDepthId = marketDepthId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

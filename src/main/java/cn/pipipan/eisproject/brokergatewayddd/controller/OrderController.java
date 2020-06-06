@@ -118,7 +118,7 @@ public class OrderController {
 
 //    @Cacheable(key = "#p0")
     public String getMarketDepthId(String futureName){
-        return futureDTORepository.findFutureDTOByDescriptionEquals(futureName).getMarketDepthId();
+        return futureDTORepository.findFutureDTOByNameEquals(futureName).getMarketDepthId();
     }
 
     private void addStatus(OrderDTO orderDTO) {

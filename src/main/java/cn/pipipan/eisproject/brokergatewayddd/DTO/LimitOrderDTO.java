@@ -2,10 +2,11 @@ package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.util.DTOConvert;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+@Data
 @Document
 public class LimitOrderDTO implements OrderDTO{
     static class Convert implements DTOConvert<LimitOrderDTO, LimitOrder> {
@@ -40,100 +41,4 @@ public class LimitOrderDTO implements OrderDTO{
     @ApiModelProperty(required = true)
     private String clientId;
     private String statusSwitchTime;
-
-    public String getStatusSwitchTime() {
-        return statusSwitchTime;
-    }
-
-    public void setStatusSwitchTime(String statusSwitchTime) {
-        this.statusSwitchTime = statusSwitchTime;
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-
-    public String getFutureName() {
-        return futureName;
-    }
-
-    public void setFutureName(String futureName) {
-        this.futureName = futureName;
-    }
-    public String getTraderName() {
-        return traderName;
-    }
-
-    public void setTraderName(String traderName) {
-        this.traderName = traderName;
-    }
-
-
-    public String getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(String creationTime) {
-        this.creationTime = creationTime;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getMarketDepthId() {
-        return marketDepthId;
-    }
-
-    public void setMarketDepthId(String marketDepthId) {
-        this.marketDepthId = marketDepthId;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public int getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Side getSide() {
-        return side;
-    }
-
-    public void setSide(Side side) {
-        this.side = side;
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

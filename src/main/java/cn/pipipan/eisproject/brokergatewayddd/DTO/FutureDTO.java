@@ -1,37 +1,15 @@
 package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+@Data
 @Document
 public class FutureDTO {
     @Id
     String id;
-    String description;
-
-    public String getMarketDepthId() {
-        return marketDepthId;
-    }
-
-    public void setMarketDepthId(String marketDepthId) {
-        this.marketDepthId = marketDepthId;
-    }
-
+    String name;
     String marketDepthId;
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

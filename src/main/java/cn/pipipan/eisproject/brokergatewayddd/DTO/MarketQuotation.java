@@ -1,12 +1,13 @@
 package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.helper.Util;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
-
+@Data
 @Document
 public class MarketQuotation {
     private float lastClosePrice;
@@ -88,125 +89,7 @@ public class MarketQuotation {
         return marketQuotation;
     }
 
-    public String getDate() {
-        return date;
-    }
 
-    public void setDate(String Date) {
-        this.date = Date;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String Id) {
-        this.id = Id;
-    }
-
-    public String getCurrentTime() {
-        return currentTime;
-    }
-
-    public void setCurrentTime(String CurrentTime) {
-        this.currentTime = CurrentTime;
-    }
-
-    public void setOpenPrice(float currentOpenPrice) {
-        this.openPrice= currentOpenPrice;
-    }
-
-    public float getOpenPrice() {
-        return openPrice;
-    }
-
-    public void setClosePrice(float ClosePrice) {
-        this.closePrice= ClosePrice;
-    }
-
-    public float getClosePrice() {
-        return closePrice;
-    }
-
-    public void setHighPrice(float HighPrice) {
-        this.highPrice= HighPrice;
-    }
-
-    public float getHighPrice() {
-        return highPrice;
-    }
-
-    public void setLowPrice(float LowPrice) {
-        this.lowPrice= LowPrice;
-    }
-
-    public float getLowPrice() {
-        return lowPrice;
-    }
-
-    public void setTotalVolume(int TotalVolume) {
-        this.totalVolume= TotalVolume;
-    }
-
-    public int getTotalVolume() {
-        return totalVolume;
-    }
-
-    public void setTotalCapital(int TotalCapital) {
-        this.totalCapital= TotalCapital;
-    }
-
-    public int getTotalCapital() {
-        return totalCapital;
-    }
-
-    public void setLastClosePrice(float LastClosePrice) {
-        this.lastClosePrice= LastClosePrice;
-    }
-
-    public float getLastClosePrice() {
-        return lastClosePrice;
-    }
-
-    public void setCurrentPrice(float CurrentPrice) {
-        this.currentPrice= CurrentPrice;
-    }
-
-    public float getCurrentPrice() {
-        return currentPrice;
-    }
-
-    public void setChangePrice(float ChangePrice) {
-        this.changePrice= ChangePrice;
-    }
-
-    public float getChangePrice() {
-        return changePrice;
-    }
-
-    public void setChangePercent(float ChangePercent) {
-        this.changePercent= ChangePercent;
-    }
-
-    public float getChangePercent() {
-        return changePercent;
-    }
-
-    public void setTotalShare(int TotalShare) {
-        this.totalShare= TotalShare;
-    }
-
-    public float getTotalShare() {
-        return totalShare;
-    }
-
-    public void setTurnoverRate(float TurnoverRate) {
-        this.turnoverRate= TurnoverRate;
-    }
-
-    public float getTurnoverRate() {
-        return turnoverRate;
-    }
 
 }
 

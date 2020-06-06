@@ -18,7 +18,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 @SpringBootApplication
-@Cacheable
 public class BrokergatewayDddApplication {
     public static ApplicationContext ac;
     @Bean

@@ -1,8 +1,9 @@
 package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.util.DTOConvert;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
-
+@Data
 public class MarketOrder {
 
     public void decreaseCount(int delta) {
@@ -44,46 +45,7 @@ public class MarketOrder {
     private String traderName;
     private String clientId;
 
-    public String getFutureName() {
-        return futureName;
-    }
 
-    public void setFutureName(String futureName) {
-        this.futureName = futureName;
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public String getTraderName() {
-        return traderName;
-    }
-
-    public void setTraderName(String traderName) {
-        this.traderName = traderName;
-    }
-
-
-    public String getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(String creationTime) {
-        this.creationTime = creationTime;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
 
     public boolean isBuyer(){
@@ -91,37 +53,5 @@ public class MarketOrder {
     }
     public boolean isSeller() {
         return this.side.equals(Side.SELLER);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getMarketDepthId() {
-        return marketDepthId;
-    }
-
-    public void setMarketDepthId(String marketDepthId) {
-        this.marketDepthId = marketDepthId;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    public Side getSide() {
-        return side;
-    }
-
-    public void setSide(Side side) {
-        this.side = side;
     }
 }

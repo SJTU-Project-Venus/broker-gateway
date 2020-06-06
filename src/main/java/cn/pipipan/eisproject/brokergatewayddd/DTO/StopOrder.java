@@ -2,12 +2,13 @@ package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.helper.Util;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
-
+@Data
 @Document
 public class StopOrder implements OrderDTO{
     @Id
@@ -32,40 +33,6 @@ public class StopOrder implements OrderDTO{
     private String clientId;
     private String statusSwitchTime;
 
-    public String getStatusSwitchTime() {
-        return statusSwitchTime;
-    }
-
-    public void setStatusSwitchTime(String statusSwitchTime) {
-        this.statusSwitchTime = statusSwitchTime;
-    }
-
-
-    public String getFutureName() {
-        return futureName;
-    }
-
-    public void setFutureName(String futureName) {
-        this.futureName = futureName;
-    }
-
-    public String getTraderName() {
-        return traderName;
-    }
-
-    public void setTraderName(String traderName) {
-        this.traderName = traderName;
-    }
-
-
-    public String getCreationTime() {
-        return creationTime;
-    }
-
-    public void setCreationTime(String creationTime) {
-        this.creationTime = creationTime;
-    }
-
     public LimitOrder convertToLimitOrder(){
         LimitOrder limitOrder = new LimitOrder();
         BeanUtils.copyProperties(this, limitOrder);
@@ -84,70 +51,6 @@ public class StopOrder implements OrderDTO{
         return marketOrder;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Type getTargetType() {
-        return targetType;
-    }
-
-    public void setTargetType(Type targetType) {
-        this.targetType = targetType;
-    }
-
-    public String getMarketDepthId() {
-        return marketDepthId;
-    }
-
-    public void setMarketDepthId(String marketDepthId) {
-        this.marketDepthId = marketDepthId;
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public Side getSide() {
-        return side;
-    }
-
-    public void setSide(Side side) {
-        this.side = side;
-    }
-
-    public int getUnitPrice() {
-        return unitPrice;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public int getStopPrice() {
-        return stopPrice;
-    }
-
-    public void setStopPrice(int stopPrice) {
-        this.stopPrice = stopPrice;
-    }
-
     public boolean isBuyer() {
         return this.side.equals(Side.BUYER);
     }
@@ -156,11 +59,4 @@ public class StopOrder implements OrderDTO{
         return this.side.equals(Side.SELLER);
     }
 
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
 }
