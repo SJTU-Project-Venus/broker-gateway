@@ -1,4 +1,4 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 public interface OrderDTO {
     public void setId(String id);

@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.event;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.MarketOrderDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.MarketOrderDTO;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class IssueMarketOrderEvent {

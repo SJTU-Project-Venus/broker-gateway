@@ -1,4 +1,4 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.IssueFutureCommand;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.IssueFutureEvent;

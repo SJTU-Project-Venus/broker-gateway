@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.command;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.FutureDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.FutureDTO;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class IssueFutureCommand {

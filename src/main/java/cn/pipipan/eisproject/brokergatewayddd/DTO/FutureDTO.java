@@ -1,4 +1,4 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,9 +1,9 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.*;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.*;
-import cn.pipipan.eisproject.brokergatewayddd.domain.NullObject.NullBuyerLimitOrder;
-import cn.pipipan.eisproject.brokergatewayddd.domain.NullObject.NullSellerLimitOrder;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.NullObject.NullBuyerLimitOrder;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.NullObject.NullSellerLimitOrder;
 import cn.pipipan.eisproject.brokergatewayddd.helper.Util;
 import cn.pipipan.eisproject.brokergatewayddd.util.DTOConvert;
 import org.axonframework.commandhandling.CommandHandler;

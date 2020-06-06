@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.repository;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.MarketDepthDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.MarketDepthDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

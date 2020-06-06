@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.command;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.LimitOrderDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.LimitOrderDTO;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class IssueLimitOrderCommand implements IssueOrderCommand{

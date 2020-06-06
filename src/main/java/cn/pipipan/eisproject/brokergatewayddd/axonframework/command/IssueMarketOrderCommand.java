@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.command;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.MarketOrderDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.MarketOrderDTO;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class IssueMarketOrderCommand implements IssueOrderCommand{

@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.command;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.CancelOrder;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.CancelOrder;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class IssueCancelOrderCommand implements IssueOrderCommand{

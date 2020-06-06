@@ -4,8 +4,8 @@ import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.IssueLimitOrde
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.LimitOrderCancelledEvent;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.LimitOrderCountDecreasedEvent;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.StopOrderToLimitOrderConvertedEvent;
-import cn.pipipan.eisproject.brokergatewayddd.domain.LimitOrderDTO;
-import cn.pipipan.eisproject.brokergatewayddd.domain.Status;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.LimitOrderDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.Status;
 import cn.pipipan.eisproject.brokergatewayddd.helper.Util;
 import cn.pipipan.eisproject.brokergatewayddd.repository.LimitOrderDTORepository;
 import org.axonframework.eventhandling.EventHandler;

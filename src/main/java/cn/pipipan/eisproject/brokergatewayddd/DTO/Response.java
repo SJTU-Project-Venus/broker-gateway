@@ -1,4 +1,4 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 public class Response<T> {
     private T body;

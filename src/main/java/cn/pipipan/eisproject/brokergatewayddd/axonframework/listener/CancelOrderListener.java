@@ -2,7 +2,7 @@ package cn.pipipan.eisproject.brokergatewayddd.axonframework.listener;
 
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.CancelOrderFinishedEvent;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.IssueCancelOrderEvent;
-import cn.pipipan.eisproject.brokergatewayddd.domain.CancelOrder;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.CancelOrder;
 import cn.pipipan.eisproject.brokergatewayddd.helper.Util;
 import cn.pipipan.eisproject.brokergatewayddd.repository.CancelOrderRepository;
 import org.axonframework.eventsourcing.EventSourcingHandler;

@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.event;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.Status;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.Status;
 
 public class CancelOrderFinishedEvent {
     final String id;

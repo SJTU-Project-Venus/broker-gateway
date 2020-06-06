@@ -4,16 +4,16 @@ import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.IssueCancelO
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.IssueLimitOrderCommand;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.IssueMarketOrderCommand;
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.IssueStopOrderCommand;
-import cn.pipipan.eisproject.brokergatewayddd.domain.*;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.*;
 import cn.pipipan.eisproject.brokergatewayddd.helper.Util;
 import cn.pipipan.eisproject.brokergatewayddd.repository.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.cache.annotation.Cacheable;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -106,7 +106,7 @@ public class OrderController {
     private void completeOrder(OrderDTO orderDTO) {
         addOrderId(orderDTO);
         addCreationTime(orderDTO);
-        addTraderName(orderDTO);
+//        addTraderName(orderDTO);
         addStatus(orderDTO);
         addMarketDepthId(orderDTO);
     }
@@ -116,7 +116,7 @@ public class OrderController {
         orderDTO.setMarketDepthId(getMarketDepthId(futureName));
     }
 
-    @Cacheable(key = "#p0")
+//    @Cacheable(key = "#p0")
     public String getMarketDepthId(String futureName){
         return futureDTORepository.findFutureDTOByDescriptionEquals(futureName).getMarketDepthId();
     }
@@ -125,9 +125,9 @@ public class OrderController {
         orderDTO.setStatus(Status.WAITING);
     }
 
-    private void addTraderName(OrderDTO orderDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String traderName = authentication.getName();
-        orderDTO.setTraderName(traderName);
-    }
+//    private void addTraderName(OrderDTO orderDTO) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String traderName = authentication.getName();
+//        orderDTO.setTraderName(traderName);
+//    }
 }

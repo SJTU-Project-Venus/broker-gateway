@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.event;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.MarketQuotation;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.MarketQuotation;
 
 public class IssueMarketQuotationEvent {
     private final String id;

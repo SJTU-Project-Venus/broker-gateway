@@ -1,7 +1,7 @@
 package cn.pipipan.eisproject.brokergatewayddd.controller;
 
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.command.IssueFutureCommand;
-import cn.pipipan.eisproject.brokergatewayddd.domain.FutureDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.FutureDTO;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

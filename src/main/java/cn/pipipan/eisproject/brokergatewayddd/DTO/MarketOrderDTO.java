@@ -1,15 +1,13 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.util.DTOConvert;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class MarketOrder {
-
-    public void decreaseCount(int delta) {
-        count -= delta;
-        if (count == 0) this.status = Status.FINISHED;
-    }
-
+@Document
+public class MarketOrderDTO implements OrderDTO{
     public String getClientId() {
         return clientId;
     }
@@ -18,38 +16,43 @@ public class MarketOrder {
         this.clientId = clientId;
     }
 
-
-    static class Convert implements DTOConvert<MarketOrder, MarketOrderDTO> {
+    static class Convert implements DTOConvert<MarketOrderDTO, MarketOrder> {
         @Override
-        public MarketOrderDTO convertFrom(MarketOrder marketOrder) {
-            MarketOrderDTO marketOrderDTO = new MarketOrderDTO();
-            BeanUtils.copyProperties(marketOrder, marketOrderDTO);
-            return marketOrderDTO;
+        public MarketOrder convertFrom(MarketOrderDTO marketOrderDTO) {
+            MarketOrder marketOrder = new MarketOrder();
+            BeanUtils.copyProperties(marketOrderDTO, marketOrder);
+            return marketOrder;
         }
     }
 
-    public MarketOrderDTO convertToMarketOrderDTO(){
+    public MarketOrder convertToMarketOrder(){
         Convert convert = new Convert();
         return convert.convertFrom(this);
     }
 
+    @Id
     String id;
-    private String futureName;
     private String marketDepthId;
     private int count;
+    @ApiModelProperty(required = true)
     private Side side;
-    private Status status;
     private String creationTime;
-    private int totalCount;
     private String traderName;
+    private Status status;
+    @ApiModelProperty(required = true)
+    private int totalCount;
+    @ApiModelProperty(required = true)
+    private String futureName;
+    @ApiModelProperty(required = true)
     private String clientId;
+    private String statusSwitchTime;
 
-    public String getFutureName() {
-        return futureName;
+    public String getStatusSwitchTime() {
+        return statusSwitchTime;
     }
 
-    public void setFutureName(String futureName) {
-        this.futureName = futureName;
+    public void setStatusSwitchTime(String statusSwitchTime) {
+        this.statusSwitchTime = statusSwitchTime;
     }
 
     public int getTotalCount() {
@@ -85,18 +88,19 @@ public class MarketOrder {
         this.status = status;
     }
 
-
-    public boolean isBuyer(){
-        return this.side.equals(Side.BUYER);
-    }
-    public boolean isSeller() {
-        return this.side.equals(Side.SELLER);
-    }
-
     public String getId() {
         return id;
     }
 
+    public String getFutureName() {
+        return futureName;
+    }
+
+    public void setFutureName(String futureName) {
+        this.futureName = futureName;
+    }
+
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -113,15 +117,15 @@ public class MarketOrder {
         return count;
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
-
     public Side getSide() {
         return side;
     }
 
     public void setSide(Side side) {
         this.side = side;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.event;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.OrderBlotterDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.OrderBlotterDTO;
 
 public class IssueOrderBlotterEvent {
     final String id;

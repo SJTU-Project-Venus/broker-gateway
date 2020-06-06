@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.event;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.StopOrder;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.StopOrder;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class IssueStopOrderEvent {

@@ -1,7 +1,7 @@
 package cn.pipipan.eisproject.brokergatewayddd.repository;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.Status;
-import cn.pipipan.eisproject.brokergatewayddd.domain.StopOrder;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.Status;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.StopOrder;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

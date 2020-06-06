@@ -1,7 +1,7 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.listener;
 
 import cn.pipipan.eisproject.brokergatewayddd.axonframework.event.IssueFutureEvent;
-import cn.pipipan.eisproject.brokergatewayddd.domain.FutureDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.FutureDTO;
 import cn.pipipan.eisproject.brokergatewayddd.repository.FutureDTORepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;

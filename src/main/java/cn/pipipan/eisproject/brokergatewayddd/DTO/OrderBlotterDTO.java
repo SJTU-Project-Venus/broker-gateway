@@ -1,4 +1,4 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.helper.Util;
 import org.springframework.data.annotation.Id;

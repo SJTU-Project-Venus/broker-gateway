@@ -1,37 +1,53 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import cn.pipipan.eisproject.brokergatewayddd.util.DTOConvert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class LimitOrder {
-    Logger logger = LoggerFactory.getLogger(LimitOrder.class);
-    static class Convert implements DTOConvert<LimitOrder, LimitOrderDTO>{
+@Document
+public class LimitOrderDTO implements OrderDTO{
+    static class Convert implements DTOConvert<LimitOrderDTO, LimitOrder> {
+
         @Override
-        public LimitOrderDTO convertFrom(LimitOrder limitOrder) {
-            LimitOrderDTO limitOrderDTO = new LimitOrderDTO();
-            BeanUtils.copyProperties(limitOrder, limitOrderDTO);
-            return limitOrderDTO;
+        public LimitOrder convertFrom(LimitOrderDTO limitOrderDTO) {
+            LimitOrder limitOrder = new LimitOrder();
+            BeanUtils.copyProperties(limitOrderDTO, limitOrder);
+            return limitOrder;
         }
     }
 
-    public LimitOrderDTO convertToLimitOrderDTO(){
+    public LimitOrder convertToLimitOrder(){
         Convert convert = new Convert();
         return convert.convertFrom(this);
     }
-
+    @Id
     private String id;
+    @ApiModelProperty(required = true)
+    private String futureName;
     private String marketDepthId;
+    @ApiModelProperty(required = true)
     private int totalCount;
     private int count;
+    @ApiModelProperty(required = true)
     private int unitPrice;
+    @ApiModelProperty(required = true)
     private Side side;
     private Status status;
     private String creationTime;
     private String traderName;
-    private String futureName;
+    @ApiModelProperty(required = true)
     private String clientId;
+    private String statusSwitchTime;
+
+    public String getStatusSwitchTime() {
+        return statusSwitchTime;
+    }
+
+    public void setStatusSwitchTime(String statusSwitchTime) {
+        this.statusSwitchTime = statusSwitchTime;
+    }
 
     public String getClientId() {
         return clientId;
@@ -41,9 +57,6 @@ public class LimitOrder {
         this.clientId = clientId;
     }
 
-    public int getTotalCount() {
-        return totalCount;
-    }
     public String getFutureName() {
         return futureName;
     }
@@ -51,11 +64,6 @@ public class LimitOrder {
     public void setFutureName(String futureName) {
         this.futureName = futureName;
     }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
     public String getTraderName() {
         return traderName;
     }
@@ -73,13 +81,12 @@ public class LimitOrder {
         this.creationTime = creationTime;
     }
 
-    public void decreaseCount(int delta){
-        this.count -= delta;
-        if (this.count == 0) this.status = Status.FINISHED;
+    public Status getStatus() {
+        return status;
     }
 
-    boolean isBuyer(){
-        return this.side.equals(Side.BUYER);
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getId() {
@@ -90,47 +97,43 @@ public class LimitOrder {
         return marketDepthId;
     }
 
-    public int getCount() {
-        return count;
-    }
-
-    public int getUnitPrice() {
-        return unitPrice;
-    }
-
-    public Side getSide() {
-        return side;
-    }
-
-    public void setLogger(Logger logger) {
-        this.logger = logger;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public void setMarketDepthId(String marketDepthId) {
         this.marketDepthId = marketDepthId;
+    }
+
+    public int getCount() {
+        return count;
     }
 
     public void setCount(int count) {
         this.count = count;
     }
 
+    public int getUnitPrice() {
+        return unitPrice;
+    }
+
     public void setUnitPrice(int unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public Side getSide() {
+        return side;
     }
 
     public void setSide(Side side) {
         this.side = side;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public int getTotalCount() {
+        return totalCount;
     }
 
-    public Status getStatus() {
-        return status;
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

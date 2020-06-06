@@ -1,7 +1,7 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.event;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.MarketDepthDTO;
-import cn.pipipan.eisproject.brokergatewayddd.domain.MarketQuotation;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.MarketDepthDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.MarketQuotation;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class MarketDepthFixedEvent {

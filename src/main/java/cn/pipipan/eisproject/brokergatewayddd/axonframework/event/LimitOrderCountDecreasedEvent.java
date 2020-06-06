@@ -1,6 +1,6 @@
 package cn.pipipan.eisproject.brokergatewayddd.axonframework.event;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.LimitOrderDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.LimitOrderDTO;
 
 public class LimitOrderCountDecreasedEvent {
     final String id;

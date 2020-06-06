@@ -1,4 +1,4 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain;
+package cn.pipipan.eisproject.brokergatewayddd.DTO;
 
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;

@@ -1,6 +1,6 @@
-package cn.pipipan.eisproject.brokergatewayddd.domain.NullObject;
+package cn.pipipan.eisproject.brokergatewayddd.DTO.NullObject;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.LimitOrder;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.LimitOrder;
 
 public class NullSellerLimitOrder extends LimitOrder {
     @Override

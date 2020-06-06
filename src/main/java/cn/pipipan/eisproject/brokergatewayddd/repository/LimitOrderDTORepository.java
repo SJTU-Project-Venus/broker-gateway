@@ -1,7 +1,7 @@
 package cn.pipipan.eisproject.brokergatewayddd.repository;
 
-import cn.pipipan.eisproject.brokergatewayddd.domain.LimitOrderDTO;
-import cn.pipipan.eisproject.brokergatewayddd.domain.Status;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.LimitOrderDTO;
+import cn.pipipan.eisproject.brokergatewayddd.DTO.Status;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
