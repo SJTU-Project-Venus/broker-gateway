@@ -1,0 +1,39 @@
+package macoredroid.brokergateway.DTO;
+
+import macoredroid.brokergateway.axonframework.command.IssueFutureCommand;
+import macoredroid.brokergateway.axonframework.event.IssueFutureEvent;
+import lombok.Data;
+import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.modelling.command.AggregateIdentifier;
+import org.axonframework.modelling.command.AggregateLifecycle;
+import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.beans.BeanUtils;
+@Data
+@Aggregate
+public class Future {
+    @AggregateIdentifier
+    String id;
+    String marketDepthId;
+    String name;
+
+    @CommandHandler
+    public Future(IssueFutureCommand issueFutureCommand){
+        AggregateLifecycle.apply(new IssueFutureEvent(issueFutureCommand.getId(), issueFutureCommand.getFutureDTO()));
+        try {
+            AggregateLifecycle.createNew(MarketDepth.class, () -> new MarketDepth(issueFutureCommand.getFutureDTO().getMarketDepthId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @EventSourcingHandler
+    public void on(IssueFutureEvent issueFutureEvent){
+        BeanUtils.copyProperties(issueFutureEvent.getFutureDTO(), this);
+        this.id = issueFutureEvent.getId();
+    }
+
+    protected Future(){
+
+    }
+}
