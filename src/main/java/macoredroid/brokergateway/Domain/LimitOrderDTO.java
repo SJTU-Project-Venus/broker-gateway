@@ -1,8 +1,7 @@
 package macoredroid.brokergateway.Domain;
 
-import macoredroid.brokergateway.util.DTOConvert;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import macoredroid.brokergateway.util.DTOConvert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,20 +24,15 @@ public class LimitOrderDTO implements OrderDTO{
     }
     @Id
     private String id;
-    @ApiModelProperty(required = true)
     private String futureName;
     private String marketDepthId;
-    @ApiModelProperty(required = true)
     private int totalCount;
     private int count;
-    @ApiModelProperty(required = true)
     private int unitPrice;
-    @ApiModelProperty(required = true)
     private Side side;
     private Status status;
     private String creationTime;
     private String traderName;
-    @ApiModelProperty(required = true)
     private String clientId;
     private String statusSwitchTime;
 }

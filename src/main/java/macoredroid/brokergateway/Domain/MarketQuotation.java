@@ -28,7 +28,7 @@ public class MarketQuotation {
     @Id
     private String id;
 
-    MarketQuotation(String currentDate, float lastClosePrice, String marketDepthId){
+    public MarketQuotation(String currentDate, float lastClosePrice, String marketDepthId){
         setDate(currentDate);
         setLastClosePrice(lastClosePrice);
         setOpenPrice(0);

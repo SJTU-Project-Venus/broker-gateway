@@ -1,5 +1,6 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.core;
 
+import macoredroid.brokergateway.Domain.*;
 import macoredroid.brokergateway.Domain.NullObject.NullBuyerLimitOrder;
 import macoredroid.brokergateway.Domain.NullObject.NullSellerLimitOrder;
 import macoredroid.brokergateway.command.*;
@@ -31,7 +32,7 @@ public class MarketDepth {
         @Override
         public MarketDepthDTO convertFrom(MarketDepth marketDepth) {
             MarketDepthDTO marketDepthDTO = new MarketDepthDTO();
-            marketDepthDTO.id = marketDepth.id;
+            marketDepthDTO.setId(marketDepth.id);
             for (int i = marketDepth.buyers.size() - 1; i >= Math.max(0, marketDepth.buyers.size() - 5); i--) {
                 OrderPriceComposite orderPriceComposite = buyers.get(i);
                 marketDepthDTO.addBuyer(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());

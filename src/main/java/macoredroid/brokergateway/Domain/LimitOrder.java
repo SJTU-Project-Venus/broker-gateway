@@ -39,7 +39,7 @@ public class LimitOrder {
         if (this.count == 0) this.status = Status.FINISHED;
     }
 
-    boolean isBuyer(){
+    public boolean isBuyer(){
         return this.side.equals(Side.BUYER);
     }
 }

@@ -1,4 +1,4 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.core;
 
 import macoredroid.brokergateway.command.IssueFutureCommand;
 import macoredroid.brokergateway.event.IssueFutureEvent;
