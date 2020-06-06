@@ -1,8 +1,8 @@
 package macoredroid.brokergateway.RealDTO;
 
 import lombok.Data;
-import macoredroid.brokergateway.DTO.Side;
-import macoredroid.brokergateway.DTO.Status;
+import macoredroid.brokergateway.Domain.Side;
+import macoredroid.brokergateway.Domain.Status;
 @Data
 public class RealMarketOrder {
 

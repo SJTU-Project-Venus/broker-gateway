@@ -1,8 +1,8 @@
 package macoredroid.brokergateway.controller;
 
-import macoredroid.brokergateway.DTO.FutureDTO;
+import macoredroid.brokergateway.Domain.FutureDTO;
 import macoredroid.brokergateway.RealDTO.RealFutureDTO;
-import macoredroid.brokergateway.axonframework.command.IssueFutureCommand;
+import macoredroid.brokergateway.command.IssueFutureCommand;
 import macoredroid.brokergateway.repository.FutureDTORepository;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;

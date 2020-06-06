@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.RealDTO;
 
 import lombok.Data;
-import macoredroid.brokergateway.DTO.Side;
+import macoredroid.brokergateway.Domain.Side;
 
 @Data
 public class RealLimitOrder {

@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.repository;
 
-import macoredroid.brokergateway.DTO.MarketDepthDTO;
+import macoredroid.brokergateway.Domain.MarketDepthDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

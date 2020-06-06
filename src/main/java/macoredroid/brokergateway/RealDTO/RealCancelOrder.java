@@ -1,8 +1,8 @@
 package macoredroid.brokergateway.RealDTO;
 
 import lombok.Data;
-import macoredroid.brokergateway.DTO.Side;
-import macoredroid.brokergateway.DTO.Type;
+import macoredroid.brokergateway.Domain.Side;
+import macoredroid.brokergateway.Domain.Type;
 @Data
 public class RealCancelOrder {
 

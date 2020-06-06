@@ -1,14 +1,14 @@
 package macoredroid.brokergateway.controller;
 
-import macoredroid.brokergateway.DTO.*;
+import macoredroid.brokergateway.Domain.*;
 import macoredroid.brokergateway.RealDTO.RealCancelOrder;
 import macoredroid.brokergateway.RealDTO.RealLimitOrder;
 import macoredroid.brokergateway.RealDTO.RealMarketOrder;
 import macoredroid.brokergateway.RealDTO.RealStopOrderDTO;
-import macoredroid.brokergateway.axonframework.command.IssueCancelOrderCommand;
-import macoredroid.brokergateway.axonframework.command.IssueLimitOrderCommand;
-import macoredroid.brokergateway.axonframework.command.IssueMarketOrderCommand;
-import macoredroid.brokergateway.axonframework.command.IssueStopOrderCommand;
+import macoredroid.brokergateway.command.IssueCancelOrderCommand;
+import macoredroid.brokergateway.command.IssueLimitOrderCommand;
+import macoredroid.brokergateway.command.IssueMarketOrderCommand;
+import macoredroid.brokergateway.command.IssueStopOrderCommand;
 import macoredroid.brokergateway.helper.Util;
 import macoredroid.brokergateway.repository.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;

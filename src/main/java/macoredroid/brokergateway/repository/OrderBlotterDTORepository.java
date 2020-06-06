@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.repository;
 
-import macoredroid.brokergateway.DTO.OrderBlotterDTO;
+import macoredroid.brokergateway.Domain.OrderBlotterDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
