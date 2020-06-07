@@ -1,10 +1,10 @@
-package macoredroid.brokergateway.RealDTO;
+package macoredroid.brokergateway.DTO;
 
 import lombok.Data;
-import macoredroid.brokergateway.Domain.Side;
-import macoredroid.brokergateway.Domain.Status;
+import macoredroid.brokergateway.model.Side;
+import macoredroid.brokergateway.model.Status;
 @Data
-public class RealMarketOrder {
+public class MarketOrderDTO {
 
     private Side side;
     private String traderName;

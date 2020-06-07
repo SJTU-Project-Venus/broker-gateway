@@ -1,4 +1,4 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.model;
 
 public class Response<T> {
     private T body;

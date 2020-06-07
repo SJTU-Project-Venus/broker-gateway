@@ -2,6 +2,9 @@ package macoredroid.brokergateway.Domain;
 
 import lombok.Data;
 import macoredroid.brokergateway.Entity.OrderEntity;
+import macoredroid.brokergateway.model.Side;
+import macoredroid.brokergateway.model.Status;
+import macoredroid.brokergateway.model.Type;
 import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Repository;
 @Data

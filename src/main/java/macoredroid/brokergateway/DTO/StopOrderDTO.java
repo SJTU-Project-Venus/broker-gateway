@@ -1,11 +1,11 @@
-package macoredroid.brokergateway.RealDTO;
+package macoredroid.brokergateway.DTO;
 
 import lombok.Data;
-import macoredroid.brokergateway.Domain.Side;
-import macoredroid.brokergateway.Domain.Type;
+import macoredroid.brokergateway.model.Side;
+import macoredroid.brokergateway.model.Type;
 
 @Data
-public class RealStopOrderDTO {
+public class StopOrderDTO {
 
     private Type targetType;
 

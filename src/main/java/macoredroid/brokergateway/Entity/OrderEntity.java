@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.Entity;
 
-import macoredroid.brokergateway.Domain.Status;
+import macoredroid.brokergateway.model.Status;
 
 public interface OrderEntity {
     public void setId(String id);

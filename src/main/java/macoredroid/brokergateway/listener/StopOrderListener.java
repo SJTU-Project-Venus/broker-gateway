@@ -3,7 +3,7 @@ package macoredroid.brokergateway.listener;
 import macoredroid.brokergateway.event.IssueStopOrderEvent;
 import macoredroid.brokergateway.event.StopOrderCancelledEvent;
 import macoredroid.brokergateway.event.StopOrderConvertedEvent;
-import macoredroid.brokergateway.Domain.Status;
+import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.Entity.StopOrderEntity;
 import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.repository.StopOrderRepository;

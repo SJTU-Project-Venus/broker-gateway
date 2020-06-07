@@ -3,6 +3,8 @@ package macoredroid.brokergateway.Domain;
 import macoredroid.brokergateway.DTOConvert;
 import lombok.Data;
 import macoredroid.brokergateway.Entity.MarketOrderEntity;
+import macoredroid.brokergateway.model.Side;
+import macoredroid.brokergateway.model.Status;
 import org.springframework.beans.BeanUtils;
 @Data
 public class MarketOrder {

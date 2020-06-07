@@ -1,10 +1,10 @@
-package macoredroid.brokergateway.RealDTO;
+package macoredroid.brokergateway.DTO;
 
 import lombok.Data;
-import macoredroid.brokergateway.Domain.Side;
+import macoredroid.brokergateway.model.Side;
 
 @Data
-public class RealLimitOrder {
+public class LimitOrderDTO {
 
     private String futureName;
 

@@ -5,7 +5,7 @@ import macoredroid.brokergateway.event.MarketOrderCancelledEvent;
 import macoredroid.brokergateway.event.MarketOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToMarketOrderConvertedEvent;
 import macoredroid.brokergateway.Entity.MarketOrderEntity;
-import macoredroid.brokergateway.Domain.Status;
+import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.repository.MarketOrderDTORepository;
 import org.axonframework.eventhandling.EventHandler;

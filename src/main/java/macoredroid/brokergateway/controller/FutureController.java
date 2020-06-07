@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.controller;
 
 import macoredroid.brokergateway.Entity.FutureEntity;
-import macoredroid.brokergateway.RealDTO.RealFutureDTO;
+import macoredroid.brokergateway.DTO.FutureDTO;
 import macoredroid.brokergateway.command.NewFutureCommand;
 import macoredroid.brokergateway.repository.FutureDTORepository;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -21,7 +21,7 @@ public class FutureController {
     @Autowired
     FutureDTORepository futureDTORepository;
     @PostMapping
-    public void addFuture(@RequestBody RealFutureDTO Realfuture){
+    public void addFuture(@RequestBody FutureDTO Realfuture){
         if(futureDTORepository.findFutureDTOByNameEquals(Realfuture.getName())!=null)
         {
             return;

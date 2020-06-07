@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.repository;
 
-import macoredroid.brokergateway.Domain.Status;
+import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.Entity.StopOrderEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

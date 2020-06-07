@@ -1,4 +1,4 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.model;
 
 public enum Status {
     WAITING,

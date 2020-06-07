@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.event;
 
-import macoredroid.brokergateway.Domain.Status;
+import macoredroid.brokergateway.model.Status;
 
 public class CancelOrderFinishedEvent {
     final String id;

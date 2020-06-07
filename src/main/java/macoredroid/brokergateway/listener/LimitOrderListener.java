@@ -5,7 +5,7 @@ import macoredroid.brokergateway.event.LimitOrderCancelledEvent;
 import macoredroid.brokergateway.event.LimitOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToLimitOrderConvertedEvent;
 import macoredroid.brokergateway.Entity.LimitOrderEntity;
-import macoredroid.brokergateway.Domain.Status;
+import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.repository.LimitOrderDTORepository;
 import org.axonframework.eventhandling.EventHandler;

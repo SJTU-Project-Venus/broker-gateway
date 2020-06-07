@@ -10,6 +10,7 @@ import macoredroid.brokergateway.command.*;
 import macoredroid.brokergateway.event.*;
 import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.DTOConvert;
+import macoredroid.brokergateway.model.Status;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.EventSourcingHandler;

@@ -5,15 +5,17 @@ import macoredroid.brokergateway.Entity.LimitOrderEntity;
 import macoredroid.brokergateway.Entity.MarketOrderEntity;
 import macoredroid.brokergateway.Entity.OrderEntity;
 import macoredroid.brokergateway.Entity.StopOrderEntity;
-import macoredroid.brokergateway.RealDTO.RealCancelOrder;
-import macoredroid.brokergateway.RealDTO.RealLimitOrder;
-import macoredroid.brokergateway.RealDTO.RealMarketOrder;
-import macoredroid.brokergateway.RealDTO.RealStopOrderDTO;
+import macoredroid.brokergateway.DTO.CancelOrderDTO;
+import macoredroid.brokergateway.DTO.LimitOrderDTO;
+import macoredroid.brokergateway.DTO.MarketOrderDTO;
+import macoredroid.brokergateway.DTO.StopOrderDTO;
 import macoredroid.brokergateway.command.NewCancelOrderCommand;
 import macoredroid.brokergateway.command.NewLimitOrderCommand;
 import macoredroid.brokergateway.command.NewMarketOrderCommand;
 import macoredroid.brokergateway.command.NewStopOrderCommand;
 import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.model.Response;
+import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.repository.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.slf4j.Logger;
@@ -45,9 +47,9 @@ public class OrderController {
     FutureDTORepository futureDTORepository;
 
     @PostMapping("/limitOrders")
-    public Response<LimitOrderEntity> processLimitOrder(@RequestBody RealLimitOrder ReallimitOrder){
+    public Response<LimitOrderEntity> processLimitOrder(@RequestBody LimitOrderDTO reallimitOrderDTO){
         LimitOrderEntity limitOrderEntity =new LimitOrderEntity();
-        BeanUtils.copyProperties(ReallimitOrder, limitOrderEntity);
+        BeanUtils.copyProperties(reallimitOrderDTO, limitOrderEntity);
         completeOrder(limitOrderEntity);
         limitOrderEntity.setCount(limitOrderEntity.getTotalCount());
         try{
@@ -62,9 +64,9 @@ public class OrderController {
 
 
     @PostMapping("/marketOrders")
-    public Response<MarketOrderEntity> processMarketOrder(@RequestBody RealMarketOrder realMarketOrder){
+    public Response<MarketOrderEntity> processMarketOrder(@RequestBody MarketOrderDTO marketOrderDTO){
         MarketOrderEntity marketOrderEntity =new MarketOrderEntity();
-        BeanUtils.copyProperties(realMarketOrder, marketOrderEntity);
+        BeanUtils.copyProperties(marketOrderDTO, marketOrderEntity);
         completeOrder(marketOrderEntity);
         marketOrderEntity.setCount(marketOrderEntity.getTotalCount());
         try {
@@ -78,9 +80,9 @@ public class OrderController {
     }
 
     @PostMapping("/cancelOrders")
-    public Response<CancelOrder> processCancelOrder(@RequestBody RealCancelOrder realCancelOrder){
+    public Response<CancelOrder> processCancelOrder(@RequestBody CancelOrderDTO cancelOrderDTO){
         CancelOrder cancelOrder=new CancelOrder();
-        BeanUtils.copyProperties(realCancelOrder,cancelOrder);
+        BeanUtils.copyProperties(cancelOrderDTO,cancelOrder);
         completeOrder(cancelOrder);
         try{
             commandGateway.send(new NewCancelOrderCommand(cancelOrder.getMarketDepthId(), cancelOrder)).get();
@@ -93,9 +95,9 @@ public class OrderController {
     }
 
     @PostMapping("/stopOrders")
-    public Response<StopOrderEntity> processStopOrder(@RequestBody RealStopOrderDTO realStopOrderDTO){
+    public Response<StopOrderEntity> processStopOrder(@RequestBody StopOrderDTO stopOrderDTO){
         StopOrderEntity stopOrderEntity =new StopOrderEntity();
-        BeanUtils.copyProperties(realStopOrderDTO, stopOrderEntity);
+        BeanUtils.copyProperties(stopOrderDTO, stopOrderEntity);
         completeOrder(stopOrderEntity);
         try{
             commandGateway.send(new NewStopOrderCommand(stopOrderEntity.getMarketDepthId(), stopOrderEntity)).get();
