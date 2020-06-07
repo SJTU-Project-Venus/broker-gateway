@@ -3,7 +3,7 @@ package macoredroid.brokergateway.command;
 import macoredroid.brokergateway.Entity.StopOrderEntity;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class NewStopOrderCommand {
+public class NewStopOrderCommand{
     @TargetAggregateIdentifier
     final String marketDepthId;
     final StopOrderEntity stopOrderEntity;
