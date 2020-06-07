@@ -3,7 +3,7 @@ package macoredroid.brokergateway.listener;
 import macoredroid.brokergateway.event.CancelOrderFinishedEvent;
 import macoredroid.brokergateway.event.IssueCancelOrderEvent;
 import macoredroid.brokergateway.Domain.CancelOrder;
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.repository.CancelOrderRepository;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class CancelOrderListener {
     public void on(CancelOrderFinishedEvent cancelOrderFinishedEvent){
         CancelOrder cancelOrder = cancelOrderRepository.findCancelOrderById(cancelOrderFinishedEvent.getCancelOrderId());
         cancelOrder.setStatus(cancelOrderFinishedEvent.getTargetStatus());
-        cancelOrder.setStatusSwitchTime(Util.getDate(new Date()));
+        cancelOrder.setStatusSwitchTime(DateUtil.getDate(new Date()));
         cancelOrderRepository.save(cancelOrder);
     }
 }

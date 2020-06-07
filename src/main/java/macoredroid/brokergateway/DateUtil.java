@@ -4,9 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Util {
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static SimpleDateFormat simpleDayFormat = new SimpleDateFormat("yyyy-MM-dd");
+public class DateUtil {
+    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final SimpleDateFormat simpleDayFormat = new SimpleDateFormat("yyyy-MM-dd");
     public static String getNowDate(){
         return simpleDayFormat.format(new Date());
     }

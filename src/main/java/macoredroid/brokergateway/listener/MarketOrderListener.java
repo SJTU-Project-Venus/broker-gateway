@@ -6,7 +6,7 @@ import macoredroid.brokergateway.event.MarketOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToMarketOrderConvertedEvent;
 import macoredroid.brokergateway.Entity.MarketOrderEntity;
 import macoredroid.brokergateway.model.Status;
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.repository.MarketOrderDTORepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class MarketOrderListener {
     @EventHandler
     public void on(MarketOrderCountDecreasedEvent marketOrderCountDecreasedEvent){
         MarketOrderEntity marketOrderEntity = marketOrderCountDecreasedEvent.getMarketOrderEntity();
-        marketOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        marketOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         marketOrderDTORepository.save(marketOrderEntity);
     }
 
@@ -36,7 +36,7 @@ public class MarketOrderListener {
     public void on(MarketOrderCancelledEvent marketOrderCancelledEvent){
         MarketOrderEntity marketOrderEntity = marketOrderDTORepository.findMarketOrderDTOById(marketOrderCancelledEvent.getMarketOrderId());
         marketOrderEntity.setStatus(Status.CANCELLED);
-        marketOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        marketOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         marketOrderDTORepository.save(marketOrderEntity);
     }
 

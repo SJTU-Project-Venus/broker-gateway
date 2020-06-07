@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.Domain;
 
 import macoredroid.brokergateway.Entity.OrderBlotterEntity;
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
@@ -81,7 +81,7 @@ public class MarketQuotation {
         this.openPrice = other.getClosePrice();
         this.id = UUID.randomUUID().toString();
         this.marketDepthId = other.getMarketDepthId();
-        this.date = Util.getNowDate();
+        this.date = DateUtil.getNowDate();
     }
 
     public MarketQuotation clone(){

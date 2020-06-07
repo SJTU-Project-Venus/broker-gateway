@@ -2,7 +2,7 @@ package macoredroid.brokergateway.Entity;
 
 import lombok.Data;
 import macoredroid.brokergateway.Domain.*;
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.model.Side;
 import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.model.Type;
@@ -33,7 +33,7 @@ public class StopOrderEntity implements OrderEntity {
         LimitOrder limitOrder = new LimitOrder();
         BeanUtils.copyProperties(this, limitOrder);
         limitOrder.setCount(this.getTotalCount());
-        limitOrder.setCreationTime(Util.getDate(new Date()));
+        limitOrder.setCreationTime(DateUtil.getDate(new Date()));
         limitOrder.setStatus(Status.WAITING);
         return limitOrder;
     }
@@ -42,7 +42,7 @@ public class StopOrderEntity implements OrderEntity {
         MarketOrder marketOrder = new MarketOrder();
         BeanUtils.copyProperties(this, marketOrder);
         marketOrder.setCount(this.getTotalCount());
-        marketOrder.setCreationTime(Util.getDate(new Date()));
+        marketOrder.setCreationTime(DateUtil.getDate(new Date()));
         marketOrder.setStatus(Status.WAITING);
         return marketOrder;
     }

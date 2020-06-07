@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.Entity;
 
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,7 +26,7 @@ public class OrderBlotterEntity {
         orderBlotterEntity.setId(UUID.randomUUID().toString());
         orderBlotterEntity.setCount(delta);
         orderBlotterEntity.setPrice(price);
-        orderBlotterEntity.setCreationTime(Util.getDate(new Date()));
+        orderBlotterEntity.setCreationTime(DateUtil.getDate(new Date()));
         orderBlotterEntity.setBuyerTraderName(buyer.getTraderName()); orderBlotterEntity.setSellerTraderName(seller.getTraderName());
         orderBlotterEntity.setBuyerOrderId(buyer.getId()); orderBlotterEntity.setSellerOrderId(seller.getId());
         orderBlotterEntity.setMarketDepthId(marketDepthId);

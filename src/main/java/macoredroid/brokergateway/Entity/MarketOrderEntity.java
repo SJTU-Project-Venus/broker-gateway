@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.Entity;
 
 import lombok.Data;
-import macoredroid.brokergateway.DTOConvert;
+import macoredroid.brokergateway.EntityConvert;
 import macoredroid.brokergateway.Domain.MarketOrder;
 import macoredroid.brokergateway.model.Side;
 import macoredroid.brokergateway.model.Status;
@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class MarketOrderEntity implements OrderEntity {
 
-    static class Convert implements DTOConvert<MarketOrderEntity, MarketOrder> {
+    static class Convert implements EntityConvert<MarketOrderEntity, MarketOrder> {
         @Override
         public MarketOrder convertFrom(MarketOrderEntity marketOrderEntity) {
             MarketOrder marketOrder = new MarketOrder();

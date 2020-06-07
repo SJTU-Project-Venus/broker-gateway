@@ -6,7 +6,7 @@ import macoredroid.brokergateway.event.LimitOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToLimitOrderConvertedEvent;
 import macoredroid.brokergateway.Entity.LimitOrderEntity;
 import macoredroid.brokergateway.model.Status;
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.repository.LimitOrderDTORepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class LimitOrderListener {
     public void on(LimitOrderCountDecreasedEvent limitOrderCountDecreasedEvent){
         //logger.info("LimitOrder decrease count");
         LimitOrderEntity limitOrderEntity = limitOrderCountDecreasedEvent.getLimitOrderEntity();
-        limitOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        limitOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         limitOrderDTORepository.save(limitOrderEntity);
     }
 
@@ -41,7 +41,7 @@ public class LimitOrderListener {
     public void on(LimitOrderCancelledEvent limitOrderCancelledEvent){
         //logger.info("LimitOrder decrease count");
         LimitOrderEntity limitOrderEntity = limitOrderDTORepository.findLimitOrderDTOById(limitOrderCancelledEvent.getLimitOrderId());
-        limitOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        limitOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         limitOrderEntity.setStatus(Status.CANCELLED);
         limitOrderDTORepository.save(limitOrderEntity);
     }

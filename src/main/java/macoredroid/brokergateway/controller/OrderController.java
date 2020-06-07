@@ -13,7 +13,7 @@ import macoredroid.brokergateway.command.NewCancelOrderCommand;
 import macoredroid.brokergateway.command.NewLimitOrderCommand;
 import macoredroid.brokergateway.command.NewMarketOrderCommand;
 import macoredroid.brokergateway.command.NewStopOrderCommand;
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.model.Response;
 import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.repository.*;
@@ -112,7 +112,7 @@ public class OrderController {
     private void completeOrder(OrderEntity orderEntity) {
         String id = UUID.randomUUID().toString();
         orderEntity.setId(id);
-        String creationTime = Util.getDate(new Date());
+        String creationTime = DateUtil.getDate(new Date());
         orderEntity.setCreationTime(creationTime);
         orderEntity.setStatus(Status.WAITING);
         orderEntity.setMarketDepthId( futureDTORepository.findFutureDTOByNameEquals(orderEntity.getFutureName()).getMarketDepthId());

@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.Domain;
 
-import macoredroid.brokergateway.DTOConvert;
+import macoredroid.brokergateway.EntityConvert;
 import lombok.Data;
 import macoredroid.brokergateway.Entity.MarketOrderEntity;
 import macoredroid.brokergateway.model.Side;
@@ -15,7 +15,7 @@ public class MarketOrder {
     }
 
 
-    static class Convert implements DTOConvert<MarketOrder, MarketOrderEntity> {
+    static class Convert implements EntityConvert<MarketOrder, MarketOrderEntity> {
         @Override
         public MarketOrderEntity convertFrom(MarketOrder marketOrder) {
             MarketOrderEntity marketOrderEntity = new MarketOrderEntity();

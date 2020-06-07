@@ -1,5 +1,5 @@
 package macoredroid.brokergateway;
 
-public interface DTOConvert<S, D> {
+public interface EntityConvert<S, D> {
     D convertFrom(S s);
 }

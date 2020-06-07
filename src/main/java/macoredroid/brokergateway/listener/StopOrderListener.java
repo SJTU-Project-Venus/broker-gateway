@@ -5,7 +5,7 @@ import macoredroid.brokergateway.event.StopOrderCancelledEvent;
 import macoredroid.brokergateway.event.StopOrderConvertedEvent;
 import macoredroid.brokergateway.model.Status;
 import macoredroid.brokergateway.Entity.StopOrderEntity;
-import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.repository.StopOrderRepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class StopOrderListener {
         //logger.info("in StopOrderConvertedEvent");
         String id = stopOrderConvertedEvent.getStopOrderId();
         StopOrderEntity stopOrderEntity = stopOrderRepository.findStopOrderById(id);
-        stopOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        stopOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         stopOrderEntity.setStatus(Status.FINISHED);
         stopOrderRepository.save(stopOrderEntity);
     }
@@ -40,7 +40,7 @@ public class StopOrderListener {
     public void on(StopOrderCancelledEvent stopOrderCancelledEvent){
         String id = stopOrderCancelledEvent.getStopOrderId();
         StopOrderEntity stopOrderEntity = stopOrderRepository.findStopOrderById(id);
-        stopOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        stopOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         stopOrderEntity.setStatus(Status.CANCELLED);
         stopOrderRepository.save(stopOrderEntity);
     }

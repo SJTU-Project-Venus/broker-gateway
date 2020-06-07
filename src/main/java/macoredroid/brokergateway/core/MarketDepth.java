@@ -8,8 +8,8 @@ import macoredroid.brokergateway.Entity.OrderBlotterEntity;
 import macoredroid.brokergateway.Entity.StopOrderEntity;
 import macoredroid.brokergateway.command.*;
 import macoredroid.brokergateway.event.*;
-import macoredroid.brokergateway.Util;
-import macoredroid.brokergateway.DTOConvert;
+import macoredroid.brokergateway.DateUtil;
+import macoredroid.brokergateway.EntityConvert;
 import macoredroid.brokergateway.model.Status;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -32,7 +32,7 @@ public class MarketDepth {
     @Autowired
     CommandGateway commandGateway;
 
-    class Convert implements DTOConvert<MarketDepth, MarketDepthEntity> {
+    class Convert implements EntityConvert<MarketDepth, MarketDepthEntity> {
         @Override
         public MarketDepthEntity convertFrom(MarketDepth marketDepth) {
             MarketDepthEntity marketDepthEntity = new MarketDepthEntity();
@@ -154,7 +154,7 @@ public class MarketDepth {
         this.sellers = new ArrayList<>();
         this.marketOrders = new ArrayList<>();
         this.stopOrderEntities = new ArrayList<>();
-        this.marketQuotation = new MarketQuotation(Util.getNowDate(), 0, id);
+        this.marketQuotation = new MarketQuotation(DateUtil.getNowDate(), 0, id);
     }
 
     @EventSourcingHandler
@@ -323,8 +323,8 @@ public class MarketDepth {
     }
 
     private int calculatePrice(LimitOrder buyer_order, LimitOrder seller_order) {
-        Date buyer_order_date = Util.parseString(buyer_order.getCreationTime());
-        Date seller_order_date = Util.parseString(seller_order.getCreationTime());
+        Date buyer_order_date = DateUtil.parseString(buyer_order.getCreationTime());
+        Date seller_order_date = DateUtil.parseString(seller_order.getCreationTime());
         try {
             return buyer_order_date.before(seller_order_date) ? buyer_order.getUnitPrice() : seller_order.getUnitPrice();
         }

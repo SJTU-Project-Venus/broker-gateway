@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.Entity;
 
 import lombok.Data;
-import macoredroid.brokergateway.DTOConvert;
+import macoredroid.brokergateway.EntityConvert;
 import macoredroid.brokergateway.Domain.LimitOrder;
 import macoredroid.brokergateway.model.Side;
 import macoredroid.brokergateway.model.Status;
@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document
 public class LimitOrderEntity implements OrderEntity {
-    static class Convert implements DTOConvert<LimitOrderEntity, LimitOrder> {
+    static class Convert implements EntityConvert<LimitOrderEntity, LimitOrder> {
 
         @Override
         public LimitOrder convertFrom(LimitOrderEntity limitOrderEntity) {
