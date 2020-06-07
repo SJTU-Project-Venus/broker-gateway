@@ -22,7 +22,7 @@ public class Future {
         AggregateLifecycle.apply(new NewFutureEvent(newFutureCommand.getId(), newFutureCommand.getFutureDTO()));
         try {
             //new marketDepth , very important!
-            AggregateLifecycle.createNew(MarketDepth.class, () -> new MarketDepth(newFutureCommand.getFutureDTO().getMarketDepthId()));
+            AggregateLifecycle.createNew(MatchingEngine.class, () -> new MatchingEngine(newFutureCommand.getFutureDTO().getMarketDepthId()));
         } catch (Exception e) {
             e.printStackTrace();
         }

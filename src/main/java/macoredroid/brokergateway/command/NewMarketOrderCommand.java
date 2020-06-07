@@ -3,7 +3,7 @@ package macoredroid.brokergateway.command;
 import macoredroid.brokergateway.Entity.MarketOrderEntity;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class NewMarketOrderCommand implements NewOrderCommand {
+public class NewMarketOrderCommand {
     @TargetAggregateIdentifier
     String marketDepthId;
     MarketOrderEntity marketOrderEntity;

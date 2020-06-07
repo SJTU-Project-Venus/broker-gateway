@@ -3,7 +3,7 @@ package macoredroid.brokergateway.command;
 import macoredroid.brokergateway.Entity.LimitOrderEntity;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class NewLimitOrderCommand implements NewOrderCommand {
+public class NewLimitOrderCommand {
     @TargetAggregateIdentifier
     final private String id;
     final private LimitOrderEntity limitOrderEntity;

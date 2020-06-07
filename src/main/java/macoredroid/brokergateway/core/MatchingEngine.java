@@ -29,21 +29,21 @@ import java.util.Iterator;
 import java.util.List;
 
 @Aggregate
-public class MarketDepth {
-    Logger logger = LoggerFactory.getLogger(MarketDepth.class);
+public class MatchingEngine {
+    Logger logger = LoggerFactory.getLogger(MatchingEngine.class);
     @Autowired
     CommandGateway commandGateway;
 
-    class Convert implements EntityConvert<MarketDepth, MarketDepthEntity> {
+    class Convert implements EntityConvert<MatchingEngine, MarketDepthEntity> {
         @Override
-        public MarketDepthEntity convertFrom(MarketDepth marketDepth) {
+        public MarketDepthEntity convertFrom(MatchingEngine matchingEngine) {
             MarketDepthEntity marketDepthEntity = new MarketDepthEntity();
-            marketDepthEntity.setId(marketDepth.id);
-            for (int i = marketDepth.buyers.size() - 1; i >= 0; i--) {
+            marketDepthEntity.setId(matchingEngine.id);
+            for (int i = matchingEngine.buyers.size() - 1; i >= 0; i--) {
                 OrderPriceComposite orderPriceComposite = buyers.get(i);
                 marketDepthEntity.addBuyer(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
             }
-            for (int i = 0; i < marketDepth.sellers.size(); i++) {
+            for (int i = 0; i < matchingEngine.sellers.size(); i++) {
                 OrderPriceComposite orderPriceComposite = sellers.get(i);
                 marketDepthEntity.addSeller(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
             }
@@ -106,11 +106,7 @@ public class MarketDepth {
         return null;
     }
 
-    private boolean canMarketOrderDone() {
-        return getFirstMarketOrder() != null;
-    }
-
-    public MarketDepth(String id) {
+    public MatchingEngine(String id) {
         AggregateLifecycle.apply(new NewMarketDepthEvent(id));
     }
 
@@ -216,16 +212,12 @@ public class MarketDepth {
         marketOrders.add(marketOrder);
     }
 
-    private void insertIntoWaitingQueue(LimitOrder order, List<OrderPriceComposite> waitingComposites, int i) {
-        if (i == waitingComposites.size() || waitingComposites.get(i).getPrice() != order.getUnitPrice())
-            waitingComposites.add(i, new OrderPriceComposite(order));
-        else
-            waitingComposites.get(i).addOrder(order);
-    }
-
     private void insertIntoWaitingQueue(LimitOrder order, List<OrderPriceComposite> waitingComposites) {
         int index = FindIndex(order.getUnitPrice(), waitingComposites);
-        insertIntoWaitingQueue(order, waitingComposites, index);
+        if (index == waitingComposites.size() || waitingComposites.get(index).getPrice() != order.getUnitPrice())
+            waitingComposites.add(index, new OrderPriceComposite(order));
+        else
+            waitingComposites.get(index).addOrder(order);
     }
 
     private int FindIndex(int price, List<OrderPriceComposite> waitingComposites) {
@@ -234,13 +226,16 @@ public class MarketDepth {
         }
         return waitingComposites.size();
     }
-
+    //important！every time the market depth is changed
     @EventSourcingHandler
     public void on(MarketDepthChangedEvent marketDepthChangedEvent) {
         dealWithStopOrders();
-        if (isFixed()) AggregateLifecycle.apply(new MarketDepthFixedEvent(id, convertToMarketDepthDTO(), marketPrice.clone()));
-        else if (canMarketOrderDone()){
+        if (isFixed()) {
+            AggregateLifecycle.apply(new MarketDepthFixedEvent(id, convertToMarketDepthDTO(), marketPrice.clone()));
+        }
+        else if (getFirstMarketOrder() != null){//deal with market order
             MarketOrder marketOrder = getFirstMarketOrder();
+            assert marketOrder != null;
             LimitOrder limitOrder = marketOrder.isBuyer() ? getFirstSeller() : getFirstBuyer();
             dealWithMarketOrders(marketOrder, limitOrder);
         }
@@ -251,19 +246,14 @@ public class MarketDepth {
         }
     }
 
-    // cur >= buy_limit or cur <= sell_limit
     private void dealWithStopOrders() {
         int currentPrice = (int) marketPrice.getCurrentPrice();
-        int buyerCurrentComparePrice = currentPrice == 0 ? Integer.MIN_VALUE :
-                currentPrice;
-        int sellerCurrentComparePrice = currentPrice == 0 ? Integer.MAX_VALUE :
-                currentPrice;
+        int buyerCurrentComparePrice = currentPrice == 0 ? Integer.MIN_VALUE : currentPrice;
+        int sellerCurrentComparePrice = currentPrice == 0 ? Integer.MAX_VALUE : currentPrice;
         Iterator<StopOrderEntity> iterator = stopOrderEntities.iterator();
         while(iterator.hasNext()){
             StopOrderEntity stopOrderEntity = iterator.next();
-            if ((stopOrderEntity.isBuyer() && stopOrderEntity.getStopPrice() <= buyerCurrentComparePrice)
-                || (stopOrderEntity.isSeller() && stopOrderEntity.getStopPrice() >= sellerCurrentComparePrice)) {
-                //logger.info("get the converted order");
+            if ((stopOrderEntity.isBuyer() && stopOrderEntity.getStopPrice() <= buyerCurrentComparePrice) || (stopOrderEntity.isSeller() && stopOrderEntity.getStopPrice() >= sellerCurrentComparePrice)) {
                 switch (stopOrderEntity.getTargetType()){
                     case LimitOrder:
                         LimitOrder limitOrder = stopOrderEntity.convertToLimitOrder();
@@ -307,6 +297,7 @@ public class MarketDepth {
         Date buyer_order_date = DateUtil.parseString(buyer_order.getCreationTime());
         Date seller_order_date = DateUtil.parseString(seller_order.getCreationTime());
         try {
+            assert buyer_order_date != null;
             return buyer_order_date.before(seller_order_date) ? buyer_order.getUnitPrice() : seller_order.getUnitPrice();
         }
         catch (Exception e){
@@ -333,11 +324,12 @@ public class MarketDepth {
         AggregateLifecycle.apply(new LimitOrderCountDecreasedEvent(id, limitOrder.convertToLimitOrderDTO()));
     }
 
+    // no matching is going to happen
     private boolean isFixed() {
-        return !canMarketOrderDone() && (buyers.isEmpty() || sellers.isEmpty() || buyers.get(buyers.size() - 1).getPrice() < sellers.get(0).getPrice());
+        return getFirstMarketOrder() == null && (buyers.isEmpty() || sellers.isEmpty() || buyers.get(buyers.size() - 1).getPrice() < sellers.get(0).getPrice());
     }
 
-    protected MarketDepth() {
+    protected MatchingEngine() {
 
     }
 }
