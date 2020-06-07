@@ -1,16 +1,16 @@
 package macoredroid.brokergateway.event;
 
-import macoredroid.brokergateway.Domain.MarketOrderDTO;
+import macoredroid.brokergateway.Entity.MarketOrderEntity;
 
 public class StopOrderToMarketOrderConvertedEvent implements StopOrderConvertedEvent{
     final String id;
     final String stopOrderId;
-    final MarketOrderDTO marketOrderDTO;
+    final MarketOrderEntity marketOrderEntity;
 
-    public StopOrderToMarketOrderConvertedEvent(String id, String stopOrderId, MarketOrderDTO marketOrderDTO) {
+    public StopOrderToMarketOrderConvertedEvent(String id, String stopOrderId, MarketOrderEntity marketOrderEntity) {
         this.id = id;
         this.stopOrderId = stopOrderId;
-        this.marketOrderDTO = marketOrderDTO;
+        this.marketOrderEntity = marketOrderEntity;
     }
 
     public String getId() {
@@ -22,7 +22,7 @@ public class StopOrderToMarketOrderConvertedEvent implements StopOrderConvertedE
         return stopOrderId;
     }
 
-    public MarketOrderDTO getMarketOrderDTO() {
-        return marketOrderDTO;
+    public MarketOrderEntity getMarketOrderEntity() {
+        return marketOrderEntity;
     }
 }

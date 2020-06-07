@@ -29,14 +29,14 @@ public class MarketDepthListener {
     public void on(MarketDepthFixedEvent marketDepthFixedEvent){
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("marketQuotation", JSON.toJSONString(marketDepthFixedEvent.getMarketQuotation()));
-        jsonObject.addProperty("marketDepth", JSON.toJSONString(marketDepthFixedEvent.getMarketDepthDTO()));
+        jsonObject.addProperty("marketDepth", JSON.toJSONString(marketDepthFixedEvent.getMarketDepthEntity()));
         jsonObject.addProperty("marketDepthId", marketDepthFixedEvent.getId());
         jsonObject.addProperty("timestamp", new Date().getTime());
         jsonObject.addProperty("futureName", getFutureName(marketDepthFixedEvent.getId()) );
         logger.info("jsonObject: {}", jsonObject.toString());
 
         //rabbitTemplate.convertAndSend("marketDepth", "marketDepth", jsonObject.toString());
-        marketDepthDTORepository.save(marketDepthFixedEvent.getMarketDepthDTO());
+        marketDepthDTORepository.save(marketDepthFixedEvent.getMarketDepthEntity());
     }
 
 

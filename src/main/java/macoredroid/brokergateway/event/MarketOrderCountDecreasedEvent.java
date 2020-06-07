@@ -1,20 +1,20 @@
 package macoredroid.brokergateway.event;
 
-import macoredroid.brokergateway.Domain.MarketOrderDTO;
+import macoredroid.brokergateway.Entity.MarketOrderEntity;
 
 public class MarketOrderCountDecreasedEvent {
     final String id;
-    final MarketOrderDTO marketOrderDTO;
-    public MarketOrderCountDecreasedEvent(String id, MarketOrderDTO marketOrderDTO) {
+    final MarketOrderEntity marketOrderEntity;
+    public MarketOrderCountDecreasedEvent(String id, MarketOrderEntity marketOrderEntity) {
         this.id = id;
-        this.marketOrderDTO = marketOrderDTO;
+        this.marketOrderEntity = marketOrderEntity;
     }
 
     public String getId() {
         return id;
     }
 
-    public MarketOrderDTO getMarketOrderDTO(){
-        return this.marketOrderDTO;
+    public MarketOrderEntity getMarketOrderEntity(){
+        return this.marketOrderEntity;
     }
 }

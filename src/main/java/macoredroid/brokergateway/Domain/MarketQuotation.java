@@ -1,6 +1,7 @@
 package macoredroid.brokergateway.Domain;
 
-import macoredroid.brokergateway.helper.Util;
+import macoredroid.brokergateway.Entity.OrderBlotterEntity;
+import macoredroid.brokergateway.Util;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
@@ -49,7 +50,7 @@ public class MarketQuotation {
         this.marketDepthId = marketDepthId;
     }
 
-    public void update(OrderBlotterDTO orderBlotter){
+    public void update(OrderBlotterEntity orderBlotter){
         float price = orderBlotter.getPrice();
         int volume = orderBlotter.getCount();
         String time = orderBlotter.getCreationTime();

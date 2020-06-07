@@ -1,17 +1,17 @@
 package macoredroid.brokergateway.event;
 
-import macoredroid.brokergateway.Domain.OrderBlotterDTO;
+import macoredroid.brokergateway.Entity.OrderBlotterEntity;
 
 public class IssueOrderBlotterEvent {
     final String id;
-    final OrderBlotterDTO orderBlotterDTO;
+    final OrderBlotterEntity orderBlotterEntity;
 
-    public IssueOrderBlotterEvent(String id, OrderBlotterDTO orderBlotterDTO) {
+    public IssueOrderBlotterEvent(String id, OrderBlotterEntity orderBlotterEntity) {
         this.id = id;
-        this.orderBlotterDTO = orderBlotterDTO;
+        this.orderBlotterEntity = orderBlotterEntity;
     }
 
-    public OrderBlotterDTO getOrderBlotterDTO() {
-        return orderBlotterDTO;
+    public OrderBlotterEntity getOrderBlotterEntity() {
+        return orderBlotterEntity;
     }
 }

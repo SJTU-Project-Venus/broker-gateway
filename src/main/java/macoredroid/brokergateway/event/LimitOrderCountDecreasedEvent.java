@@ -1,17 +1,17 @@
 package macoredroid.brokergateway.event;
 
-import macoredroid.brokergateway.Domain.LimitOrderDTO;
+import macoredroid.brokergateway.Entity.LimitOrderEntity;
 
 public class LimitOrderCountDecreasedEvent {
     final String id;
-    final LimitOrderDTO limitOrderDTO;
+    final LimitOrderEntity limitOrderEntity;
 
-    public LimitOrderCountDecreasedEvent(String id, LimitOrderDTO limitOrderDTO) {
+    public LimitOrderCountDecreasedEvent(String id, LimitOrderEntity limitOrderEntity) {
         this.id = id;
-        this.limitOrderDTO = limitOrderDTO;
+        this.limitOrderEntity = limitOrderEntity;
     }
 
-    public LimitOrderDTO getLimitOrderDTO(){
-        return this.limitOrderDTO;
+    public LimitOrderEntity getLimitOrderEntity(){
+        return this.limitOrderEntity;
     }
 }

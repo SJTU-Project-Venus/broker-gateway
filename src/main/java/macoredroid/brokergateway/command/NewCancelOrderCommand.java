@@ -3,7 +3,7 @@ package macoredroid.brokergateway.command;
 import macoredroid.brokergateway.Domain.CancelOrder;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class IssueCancelOrderCommand implements IssueOrderCommand{
+public class NewCancelOrderCommand implements NewOrderCommand {
     @TargetAggregateIdentifier
     final String id;
     final CancelOrder cancelOrder;
@@ -16,7 +16,7 @@ public class IssueCancelOrderCommand implements IssueOrderCommand{
         return cancelOrder;
     }
 
-    public IssueCancelOrderCommand(String id, CancelOrder cancelOrder) {
+    public NewCancelOrderCommand(String id, CancelOrder cancelOrder) {
         this.id = id;
         this.cancelOrder = cancelOrder;
     }

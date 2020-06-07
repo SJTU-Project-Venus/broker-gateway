@@ -1,14 +1,14 @@
-package macoredroid.brokergateway.event;
+package macoredroid.brokergateway.command;
 
 import macoredroid.brokergateway.Entity.StopOrderEntity;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class IssueStopOrderEvent {
+public class NewStopOrderCommand implements NewOrderCommand {
     @TargetAggregateIdentifier
     final String marketDepthId;
     final StopOrderEntity stopOrderEntity;
 
-    public IssueStopOrderEvent(String marketDepthId, StopOrderEntity stopOrderEntity) {
+    public NewStopOrderCommand(String marketDepthId, StopOrderEntity stopOrderEntity) {
         this.marketDepthId = marketDepthId;
         this.stopOrderEntity = stopOrderEntity;
     }

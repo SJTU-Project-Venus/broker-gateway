@@ -1,7 +1,8 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.Entity;
 
 import lombok.Data;
-import macoredroid.brokergateway.helper.Util;
+import macoredroid.brokergateway.Domain.*;
+import macoredroid.brokergateway.Util;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 @Data
 @Document
-public class StopOrder implements OrderDTO{
+public class StopOrderEntity implements OrderEntity {
     @Id
     private String id;
     private Type targetType;

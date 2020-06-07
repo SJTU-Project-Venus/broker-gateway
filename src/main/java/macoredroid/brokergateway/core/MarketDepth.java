@@ -1,12 +1,15 @@
 package macoredroid.brokergateway.core;
 
 import macoredroid.brokergateway.Domain.*;
-import macoredroid.brokergateway.Domain.NullObject.NullBuyerLimitOrder;
-import macoredroid.brokergateway.Domain.NullObject.NullSellerLimitOrder;
+import macoredroid.brokergateway.Domain.NoBuyerLimitOrder;
+import macoredroid.brokergateway.Domain.NoSellerLimitOrder;
+import macoredroid.brokergateway.Entity.MarketDepthEntity;
+import macoredroid.brokergateway.Entity.OrderBlotterEntity;
+import macoredroid.brokergateway.Entity.StopOrderEntity;
 import macoredroid.brokergateway.command.*;
 import macoredroid.brokergateway.event.*;
-import macoredroid.brokergateway.helper.Util;
-import macoredroid.brokergateway.util.DTOConvert;
+import macoredroid.brokergateway.Util;
+import macoredroid.brokergateway.DTOConvert;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -28,24 +31,24 @@ public class MarketDepth {
     @Autowired
     CommandGateway commandGateway;
 
-    class Convert implements DTOConvert<MarketDepth, MarketDepthDTO> {
+    class Convert implements DTOConvert<MarketDepth, MarketDepthEntity> {
         @Override
-        public MarketDepthDTO convertFrom(MarketDepth marketDepth) {
-            MarketDepthDTO marketDepthDTO = new MarketDepthDTO();
-            marketDepthDTO.setId(marketDepth.id);
+        public MarketDepthEntity convertFrom(MarketDepth marketDepth) {
+            MarketDepthEntity marketDepthEntity = new MarketDepthEntity();
+            marketDepthEntity.setId(marketDepth.id);
             for (int i = marketDepth.buyers.size() - 1; i >= Math.max(0, marketDepth.buyers.size() - 5); i--) {
                 OrderPriceComposite orderPriceComposite = buyers.get(i);
-                marketDepthDTO.addBuyer(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
+                marketDepthEntity.addBuyer(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
             }
             for (int i = 0; i < Math.min(5, marketDepth.sellers.size()); i++) {
                 OrderPriceComposite orderPriceComposite = sellers.get(i);
-                marketDepthDTO.addSeller(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
+                marketDepthEntity.addSeller(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
             }
-            return marketDepthDTO;
+            return marketDepthEntity;
         }
     }
 
-    public MarketDepthDTO convertToMarketDepthDTO() {
+    public MarketDepthEntity convertToMarketDepthDTO() {
         Convert convert = new Convert();
         return convert.convertFrom(this);
     }
@@ -92,16 +95,16 @@ public class MarketDepth {
     private List<OrderPriceComposite> sellers;
     private List<OrderPriceComposite> buyers;
     private List<MarketOrder> marketOrders;
-    private List<StopOrder> stopOrders;
+    private List<StopOrderEntity> stopOrderEntities;
     private MarketQuotation marketQuotation;
 
     private LimitOrder getFirstBuyer(){
-        if (buyers.size() == 0) return new NullBuyerLimitOrder();
+        if (buyers.size() == 0) return new NoBuyerLimitOrder();
         return buyers.get(buyers.size() - 1).getLimitOrders().get(0);
     }
 
     private LimitOrder getFirstSeller(){
-        if (sellers.size() == 0) return new NullSellerLimitOrder();
+        if (sellers.size() == 0) return new NoSellerLimitOrder();
         return sellers.get(0).getLimitOrders().get(0);
     }
 
@@ -124,33 +127,23 @@ public class MarketDepth {
     }
 
     @CommandHandler
-    public void handle(IssueLimitOrderCommand issueLimitOrderCommand){
-        AggregateLifecycle.apply(new IssueLimitOrderEvent(id, issueLimitOrderCommand.getLimitOrderDTO()));
+    public void handle(NewLimitOrderCommand issueLimitOrderCommand){
+        AggregateLifecycle.apply(new IssueLimitOrderEvent(id, issueLimitOrderCommand.getLimitOrderEntity()));
     }
 
     @CommandHandler
-    public void handle(IssueMarketOrderCommand issueMarketOrderCommand){
-        AggregateLifecycle.apply(new IssueMarketOrderEvent(id, issueMarketOrderCommand.getMarketOrderDTO()));
+    public void handle(NewMarketOrderCommand issueMarketOrderCommand){
+        AggregateLifecycle.apply(new IssueMarketOrderEvent(id, issueMarketOrderCommand.getMarketOrderEntity()));
     }
 
     @CommandHandler
-    public void handle(IssueCancelOrderCommand issueCancelOrderCommand){
-        AggregateLifecycle.apply(new IssueCancelOrderEvent(id, issueCancelOrderCommand.getCancelOrder()));
+    public void handle(NewCancelOrderCommand newCancelOrderCommand){
+        AggregateLifecycle.apply(new IssueCancelOrderEvent(id, newCancelOrderCommand.getCancelOrder()));
     }
 
     @CommandHandler
-    public void handle(IssueStopOrderCommand issueStopOrderCommand){
-        AggregateLifecycle.apply(new IssueStopOrderEvent(id, issueStopOrderCommand.getStopOrder()));
-    }
-
-    @CommandHandler
-    public void handle(OpenMarketCommand openMarketCommand){
-        AggregateLifecycle.apply(new MarketOpenedEvent(id));
-    }
-
-    @CommandHandler
-    public void handle(CloseMarketCommand closeMarketCommand){
-        AggregateLifecycle.apply(new MarketClosedEvent(id, Util.getNowDate()));
+    public void handle(NewStopOrderCommand newStopOrderCommand){
+        AggregateLifecycle.apply(new IssueStopOrderEvent(id, newStopOrderCommand.getStopOrderEntity()));
     }
 
     @EventSourcingHandler
@@ -159,22 +152,20 @@ public class MarketDepth {
         this.buyers = new ArrayList<>();
         this.sellers = new ArrayList<>();
         this.marketOrders = new ArrayList<>();
-        this.stopOrders = new ArrayList<>();
+        this.stopOrderEntities = new ArrayList<>();
         this.marketQuotation = new MarketQuotation(Util.getNowDate(), 0, id);
     }
 
     @EventSourcingHandler
     public void on(IssueLimitOrderEvent issueLimitOrderEvent){
-        //logger.info("onIssueLimitOrderEvent");
-        // insert into waiting queue;
-        LimitOrder limitOrder = issueLimitOrderEvent.getLimitOrderDTO().convertToLimitOrder();
+        LimitOrder limitOrder = issueLimitOrderEvent.getLimitOrderEntity().convertToLimitOrder();
         insertIntoWaitingQueue(limitOrder, limitOrder.isBuyer() ? buyers : sellers);
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
     @EventSourcingHandler
     public void on(IssueStopOrderEvent issueStopOrderEvent){
-        stopOrders.add(issueStopOrderEvent.getStopOrder());
+        stopOrderEntities.add(issueStopOrderEvent.getStopOrderEntity());
         dealWithStopOrders();
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
@@ -213,11 +204,11 @@ public class MarketDepth {
                 }
                 break;
             case StopOrder:
-                for (StopOrder stopOrder : stopOrders){
-                    if (stopOrder.getId().equals(cancelOrder.getTargetId())){
-                        stopOrders.remove(stopOrder);
+                for (StopOrderEntity stopOrderEntity : stopOrderEntities){
+                    if (stopOrderEntity.getId().equals(cancelOrder.getTargetId())){
+                        stopOrderEntities.remove(stopOrderEntity);
                         status = Status.FINISHED;
-                        AggregateLifecycle.apply(new StopOrderCancelledEvent(id, stopOrder.getId()));
+                        AggregateLifecycle.apply(new StopOrderCancelledEvent(id, stopOrderEntity.getId()));
                         break;
                     }
                 }
@@ -229,7 +220,7 @@ public class MarketDepth {
     @EventSourcingHandler
     public void on(IssueMarketOrderEvent issueMarketOrderEvent){
         // insert into waiting queue;
-        MarketOrder marketOrder = issueMarketOrderEvent.getMarketOrderDTO().convertToMarketOrder();
+        MarketOrder marketOrder = issueMarketOrderEvent.getMarketOrderEntity().convertToMarketOrder();
         insertIntoMarketOrders(marketOrder);
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
@@ -285,22 +276,22 @@ public class MarketDepth {
                 currentPrice;
         int sellerCurrentComparePrice = currentPrice == 0 ? Integer.MAX_VALUE :
                 currentPrice;
-        Iterator<StopOrder> iterator = stopOrders.iterator();
+        Iterator<StopOrderEntity> iterator = stopOrderEntities.iterator();
         while(iterator.hasNext()){
-            StopOrder stopOrder = iterator.next();
-            if ((stopOrder.isBuyer() && stopOrder.getStopPrice() <= buyerCurrentComparePrice)
-                || (stopOrder.isSeller() && stopOrder.getStopPrice() >= sellerCurrentComparePrice)) {
+            StopOrderEntity stopOrderEntity = iterator.next();
+            if ((stopOrderEntity.isBuyer() && stopOrderEntity.getStopPrice() <= buyerCurrentComparePrice)
+                || (stopOrderEntity.isSeller() && stopOrderEntity.getStopPrice() >= sellerCurrentComparePrice)) {
                 //logger.info("get the converted order");
-                switch (stopOrder.getTargetType()){
+                switch (stopOrderEntity.getTargetType()){
                     case LimitOrder:
-                        LimitOrder limitOrder = stopOrder.convertToLimitOrder();
+                        LimitOrder limitOrder = stopOrderEntity.convertToLimitOrder();
                         insertIntoWaitingQueue(limitOrder, limitOrder.isBuyer() ? buyers : sellers);
-                        AggregateLifecycle.apply(new StopOrderToLimitOrderConvertedEvent(id, stopOrder.getId(), limitOrder.convertToLimitOrderDTO()));
+                        AggregateLifecycle.apply(new StopOrderToLimitOrderConvertedEvent(id, stopOrderEntity.getId(), limitOrder.convertToLimitOrderDTO()));
                         break;
                     case MarketOrder:
-                        MarketOrder marketOrder = stopOrder.convertToMarketOrder();
+                        MarketOrder marketOrder = stopOrderEntity.convertToMarketOrder();
                         insertIntoMarketOrders(marketOrder);
-                        AggregateLifecycle.apply(new StopOrderToMarketOrderConvertedEvent(id, stopOrder.getId(), marketOrder.convertToMarketOrderDTO()));
+                        AggregateLifecycle.apply(new StopOrderToMarketOrderConvertedEvent(id, stopOrderEntity.getId(), marketOrder.convertToMarketOrderDTO()));
                         break;
                 }
                 iterator.remove();
@@ -312,10 +303,10 @@ public class MarketDepth {
         int delta = Math.min(marketOrder.getCount(), limitOrder.getCount());
         decreaseMarketOrderCount(marketOrder, delta);
         decreaseLimitOrderCount(limitOrder, delta);
-        OrderBlotterDTO orderBlotterDTO = marketOrder.isBuyer() ? OrderBlotterDTO.createOrderBlotter(delta, limitOrder.getUnitPrice(), marketOrder.convertToMarketOrderDTO(), limitOrder.convertToLimitOrderDTO(), this.id) :
-                OrderBlotterDTO.createOrderBlotter(delta, limitOrder.getUnitPrice(), limitOrder.convertToLimitOrderDTO(), marketOrder.convertToMarketOrderDTO(), this.id);
-        marketQuotation.update(orderBlotterDTO);
-        AggregateLifecycle.apply(new IssueOrderBlotterEvent(id, orderBlotterDTO));
+        OrderBlotterEntity orderBlotterEntity = marketOrder.isBuyer() ? OrderBlotterEntity.createOrderBlotter(delta, limitOrder.getUnitPrice(), marketOrder.convertToMarketOrderDTO(), limitOrder.convertToLimitOrderDTO(), this.id) :
+                OrderBlotterEntity.createOrderBlotter(delta, limitOrder.getUnitPrice(), limitOrder.convertToLimitOrderDTO(), marketOrder.convertToMarketOrderDTO(), this.id);
+        marketQuotation.update(orderBlotterEntity);
+        AggregateLifecycle.apply(new IssueOrderBlotterEvent(id, orderBlotterEntity));
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
@@ -324,9 +315,9 @@ public class MarketDepth {
         int delta = Math.min(buyer_order.getCount(), seller_order.getCount());
         decreaseLimitOrderCount(buyer_order, delta);
         decreaseLimitOrderCount(seller_order, delta);
-        OrderBlotterDTO orderBlotterDTO = OrderBlotterDTO.createOrderBlotter(delta, calculatePrice(buyer_order, seller_order), buyer_order.convertToLimitOrderDTO(), seller_order.convertToLimitOrderDTO(), this.id);
-        marketQuotation.update(orderBlotterDTO);
-        AggregateLifecycle.apply(new IssueOrderBlotterEvent(id, orderBlotterDTO));
+        OrderBlotterEntity orderBlotterEntity = OrderBlotterEntity.createOrderBlotter(delta, calculatePrice(buyer_order, seller_order), buyer_order.convertToLimitOrderDTO(), seller_order.convertToLimitOrderDTO(), this.id);
+        marketQuotation.update(orderBlotterEntity);
+        AggregateLifecycle.apply(new IssueOrderBlotterEvent(id, orderBlotterEntity));
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
@@ -368,23 +359,11 @@ public class MarketDepth {
 
     }
 
-    @EventSourcingHandler
-    public void on(MarketOpenedEvent marketOpenedEvent){
-        marketQuotation = new MarketQuotation(marketQuotation);
-    }
-
-    @EventSourcingHandler
-    public void on(MarketClosedEvent marketClosedEvent){
-        marketQuotation.setClosePrice(marketQuotation.getCurrentPrice());
-        AggregateLifecycle.apply(new IssueMarketQuotationEvent(id, marketQuotation.clone()));
-        clearMarket();
-    }
-
     private void clearMarket() {
         buyers.clear();
         sellers.clear();
         marketOrders.clear();
-        stopOrders.clear();
+        stopOrderEntities.clear();
 
     }
 }

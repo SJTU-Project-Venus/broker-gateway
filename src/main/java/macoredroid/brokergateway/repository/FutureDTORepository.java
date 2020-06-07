@@ -1,11 +1,11 @@
 package macoredroid.brokergateway.repository;
 
-import macoredroid.brokergateway.Domain.FutureDTO;
+import macoredroid.brokergateway.Entity.FutureEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FutureDTORepository extends MongoRepository<FutureDTO, String> {
-    public FutureDTO findFutureDTOByNameEquals(String description);
-    public FutureDTO findFutureDTOByMarketDepthIdEquals(String marketDepthId);
+public interface FutureDTORepository extends MongoRepository<FutureEntity, String> {
+    public FutureEntity findFutureDTOByNameEquals(String description);
+    public FutureEntity findFutureDTOByMarketDepthIdEquals(String marketDepthId);
 }

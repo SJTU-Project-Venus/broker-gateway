@@ -1,14 +1,14 @@
-package macoredroid.brokergateway.event;
+package macoredroid.brokergateway.command;
 
 import macoredroid.brokergateway.Entity.LimitOrderEntity;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class IssueLimitOrderEvent{
+public class NewLimitOrderCommand implements NewOrderCommand {
     @TargetAggregateIdentifier
-    final String id;
-    final LimitOrderEntity limitOrderEntity;
+    final private String id;
+    final private LimitOrderEntity limitOrderEntity;
 
-    public IssueLimitOrderEvent(String id, LimitOrderEntity limitOrderEntity) {
+    public NewLimitOrderCommand(String id, LimitOrderEntity limitOrderEntity) {
         this.id = id;
         this.limitOrderEntity = limitOrderEntity;
     }
@@ -20,4 +20,5 @@ public class IssueLimitOrderEvent{
     public String getId() {
         return id;
     }
+
 }

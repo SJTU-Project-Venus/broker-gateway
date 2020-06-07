@@ -4,9 +4,9 @@ import macoredroid.brokergateway.event.IssueLimitOrderEvent;
 import macoredroid.brokergateway.event.LimitOrderCancelledEvent;
 import macoredroid.brokergateway.event.LimitOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToLimitOrderConvertedEvent;
-import macoredroid.brokergateway.Domain.LimitOrderDTO;
+import macoredroid.brokergateway.Entity.LimitOrderEntity;
 import macoredroid.brokergateway.Domain.Status;
-import macoredroid.brokergateway.helper.Util;
+import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.repository.LimitOrderDTORepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
@@ -25,30 +25,30 @@ public class LimitOrderListener {
     @EventHandler
     public void on(IssueLimitOrderEvent limitOrderEvent){
         //logger.info("LimitOrder saved into repository");
-        LimitOrderDTO limitOrderDTO = limitOrderEvent.getLimitOrderDTO();
-        limitOrderDTORepository.save(limitOrderDTO);
+        LimitOrderEntity limitOrderEntity = limitOrderEvent.getLimitOrderEntity();
+        limitOrderDTORepository.save(limitOrderEntity);
     }
 
     @EventHandler
     public void on(LimitOrderCountDecreasedEvent limitOrderCountDecreasedEvent){
         //logger.info("LimitOrder decrease count");
-        LimitOrderDTO limitOrderDTO = limitOrderCountDecreasedEvent.getLimitOrderDTO();
-        limitOrderDTO.setStatusSwitchTime(Util.getDate(new Date()));
-        limitOrderDTORepository.save(limitOrderDTO);
+        LimitOrderEntity limitOrderEntity = limitOrderCountDecreasedEvent.getLimitOrderEntity();
+        limitOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        limitOrderDTORepository.save(limitOrderEntity);
     }
 
     @EventHandler
     public void on(LimitOrderCancelledEvent limitOrderCancelledEvent){
         //logger.info("LimitOrder decrease count");
-        LimitOrderDTO limitOrderDTO = limitOrderDTORepository.findLimitOrderDTOById(limitOrderCancelledEvent.getLimitOrderId());
-        limitOrderDTO.setStatusSwitchTime(Util.getDate(new Date()));
-        limitOrderDTO.setStatus(Status.CANCELLED);
-        limitOrderDTORepository.save(limitOrderDTO);
+        LimitOrderEntity limitOrderEntity = limitOrderDTORepository.findLimitOrderDTOById(limitOrderCancelledEvent.getLimitOrderId());
+        limitOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        limitOrderEntity.setStatus(Status.CANCELLED);
+        limitOrderDTORepository.save(limitOrderEntity);
     }
 
     @EventHandler
     public void on (StopOrderToLimitOrderConvertedEvent stopOrderToLimitOrderConvertedEvent){
-        LimitOrderDTO limitOrderDTO = stopOrderToLimitOrderConvertedEvent.getLimitOrderDTO();
-        limitOrderDTORepository.save(limitOrderDTO);
+        LimitOrderEntity limitOrderEntity = stopOrderToLimitOrderConvertedEvent.getLimitOrderEntity();
+        limitOrderDTORepository.save(limitOrderEntity);
     }
 }

@@ -1,8 +1,8 @@
 package macoredroid.brokergateway.controller;
 
-import macoredroid.brokergateway.Domain.FutureDTO;
+import macoredroid.brokergateway.Entity.FutureEntity;
 import macoredroid.brokergateway.RealDTO.RealFutureDTO;
-import macoredroid.brokergateway.command.IssueFutureCommand;
+import macoredroid.brokergateway.command.NewFutureCommand;
 import macoredroid.brokergateway.repository.FutureDTORepository;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class FutureController {
         {
             return;
         }
-        FutureDTO future=new FutureDTO();
+        FutureEntity future=new FutureEntity();
         future.setName(Realfuture.getName());
         future.setMarketDepthId(UUID.randomUUID().toString());
-        commandGateway.send(new IssueFutureCommand(UUID.randomUUID().toString(), future));
+        commandGateway.send(new NewFutureCommand(UUID.randomUUID().toString(), future));
     }
 }

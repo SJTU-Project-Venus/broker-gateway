@@ -1,7 +1,8 @@
 package macoredroid.brokergateway.Domain;
 
-import macoredroid.brokergateway.util.DTOConvert;
+import macoredroid.brokergateway.DTOConvert;
 import lombok.Data;
+import macoredroid.brokergateway.Entity.MarketOrderEntity;
 import org.springframework.beans.BeanUtils;
 @Data
 public class MarketOrder {
@@ -12,16 +13,16 @@ public class MarketOrder {
     }
 
 
-    static class Convert implements DTOConvert<MarketOrder, MarketOrderDTO> {
+    static class Convert implements DTOConvert<MarketOrder, MarketOrderEntity> {
         @Override
-        public MarketOrderDTO convertFrom(MarketOrder marketOrder) {
-            MarketOrderDTO marketOrderDTO = new MarketOrderDTO();
-            BeanUtils.copyProperties(marketOrder, marketOrderDTO);
-            return marketOrderDTO;
+        public MarketOrderEntity convertFrom(MarketOrder marketOrder) {
+            MarketOrderEntity marketOrderEntity = new MarketOrderEntity();
+            BeanUtils.copyProperties(marketOrder, marketOrderEntity);
+            return marketOrderEntity;
         }
     }
 
-    public MarketOrderDTO convertToMarketOrderDTO(){
+    public MarketOrderEntity convertToMarketOrderDTO(){
         Convert convert = new Convert();
         return convert.convertFrom(this);
     }

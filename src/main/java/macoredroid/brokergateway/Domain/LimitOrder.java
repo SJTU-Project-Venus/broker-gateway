@@ -1,23 +1,24 @@
 package macoredroid.brokergateway.Domain;
 
-import macoredroid.brokergateway.util.DTOConvert;
+import macoredroid.brokergateway.DTOConvert;
 import lombok.Data;
+import macoredroid.brokergateway.Entity.LimitOrderEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 @Data
 public class LimitOrder {
     Logger logger = LoggerFactory.getLogger(LimitOrder.class);
-    static class Convert implements DTOConvert<LimitOrder, LimitOrderDTO> {
+    static class Convert implements DTOConvert<LimitOrder, LimitOrderEntity> {
         @Override
-        public LimitOrderDTO convertFrom(LimitOrder limitOrder) {
-            LimitOrderDTO limitOrderDTO = new LimitOrderDTO();
-            BeanUtils.copyProperties(limitOrder, limitOrderDTO);
-            return limitOrderDTO;
+        public LimitOrderEntity convertFrom(LimitOrder limitOrder) {
+            LimitOrderEntity limitOrderEntity = new LimitOrderEntity();
+            BeanUtils.copyProperties(limitOrder, limitOrderEntity);
+            return limitOrderEntity;
         }
     }
 
-    public LimitOrderDTO convertToLimitOrderDTO(){
+    public LimitOrderEntity convertToLimitOrderDTO(){
         Convert convert = new Convert();
         return convert.convertFrom(this);
     }

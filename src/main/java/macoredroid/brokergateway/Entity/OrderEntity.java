@@ -1,6 +1,8 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.Entity;
 
-public interface OrderDTO {
+import macoredroid.brokergateway.Domain.Status;
+
+public interface OrderEntity {
     public void setId(String id);
     public void setCreationTime(String time);
     public void setTraderName(String traderName);

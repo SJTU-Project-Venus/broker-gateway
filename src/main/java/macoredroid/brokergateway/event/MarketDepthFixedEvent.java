@@ -1,18 +1,18 @@
 package macoredroid.brokergateway.event;
 
-import macoredroid.brokergateway.Domain.MarketDepthDTO;
+import macoredroid.brokergateway.Entity.MarketDepthEntity;
 import macoredroid.brokergateway.Domain.MarketQuotation;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class MarketDepthFixedEvent {
     @TargetAggregateIdentifier
     final String id;
-    final MarketDepthDTO marketDepthDTO;
+    final MarketDepthEntity marketDepthEntity;
     final MarketQuotation marketQuotation;
 
-    public MarketDepthFixedEvent(String id, MarketDepthDTO marketDepthDTO, MarketQuotation marketQuotation) {
+    public MarketDepthFixedEvent(String id, MarketDepthEntity marketDepthEntity, MarketQuotation marketQuotation) {
         this.id = id;
-        this.marketDepthDTO = marketDepthDTO;
+        this.marketDepthEntity = marketDepthEntity;
         this.marketQuotation = marketQuotation;
     }
 
@@ -24,7 +24,7 @@ public class MarketDepthFixedEvent {
         return marketQuotation;
     }
 
-    public MarketDepthDTO getMarketDepthDTO() {
-        return marketDepthDTO;
+    public MarketDepthEntity getMarketDepthEntity() {
+        return marketDepthEntity;
     }
 }

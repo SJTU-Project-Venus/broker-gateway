@@ -1,4 +1,4 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.Entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 @Data
 @Document
-public class MarketDepthDTO {
+public class MarketDepthEntity {
     class Composite{
         int price;
         int count;
@@ -39,7 +39,7 @@ public class MarketDepthDTO {
     List<Composite> buyers = new ArrayList<>();
     List<Composite> sellers = new ArrayList<>();
 
-    public MarketDepthDTO() {
+    public MarketDepthEntity() {
     }
 
     public void addBuyer(int count, int price){

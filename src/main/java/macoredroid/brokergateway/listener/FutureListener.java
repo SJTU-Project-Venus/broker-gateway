@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.listener;
 
 import macoredroid.brokergateway.event.IssueFutureEvent;
-import macoredroid.brokergateway.Domain.FutureDTO;
+import macoredroid.brokergateway.Entity.FutureEntity;
 import macoredroid.brokergateway.repository.FutureDTORepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,12 @@ public class FutureListener {
 
     @EventHandler
     public void on(IssueFutureEvent issueFutureEvent){
-        FutureDTO futureDTO = issueFutureEvent.getFutureDTO();
-        futureDTO.setId(issueFutureEvent.getId());
-        if(futureDTORepository.findFutureDTOByNameEquals(futureDTO.getName())!=null)
+        FutureEntity futureEntity = issueFutureEvent.getFutureDTO();
+        futureEntity.setId(issueFutureEvent.getId());
+        if(futureDTORepository.findFutureDTOByNameEquals(futureEntity.getName())!=null)
         {
             return;
         }
-        futureDTORepository.save(futureDTO);
+        futureDTORepository.save(futureEntity);
     }
 }

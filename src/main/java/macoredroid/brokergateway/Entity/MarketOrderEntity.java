@@ -1,19 +1,22 @@
-package macoredroid.brokergateway.Domain;
+package macoredroid.brokergateway.Entity;
 
 import lombok.Data;
-import macoredroid.brokergateway.util.DTOConvert;
+import macoredroid.brokergateway.DTOConvert;
+import macoredroid.brokergateway.Domain.MarketOrder;
+import macoredroid.brokergateway.Domain.Side;
+import macoredroid.brokergateway.Domain.Status;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @Document
-public class MarketOrderDTO implements OrderDTO{
+public class MarketOrderEntity implements OrderEntity {
 
-    static class Convert implements DTOConvert<MarketOrderDTO, MarketOrder> {
+    static class Convert implements DTOConvert<MarketOrderEntity, MarketOrder> {
         @Override
-        public MarketOrder convertFrom(MarketOrderDTO marketOrderDTO) {
+        public MarketOrder convertFrom(MarketOrderEntity marketOrderEntity) {
             MarketOrder marketOrder = new MarketOrder();
-            BeanUtils.copyProperties(marketOrderDTO, marketOrder);
+            BeanUtils.copyProperties(marketOrderEntity, marketOrder);
             return marketOrder;
         }
     }

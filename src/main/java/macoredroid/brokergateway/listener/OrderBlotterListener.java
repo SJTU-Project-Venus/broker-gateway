@@ -13,6 +13,6 @@ public class OrderBlotterListener {
 
     @EventHandler
     public void on(IssueOrderBlotterEvent issueOrderBlotterEvent){
-        orderBlotterDTORepository.save(issueOrderBlotterEvent.getOrderBlotterDTO());
+        orderBlotterDTORepository.save(issueOrderBlotterEvent.getOrderBlotterEntity());
     }
 }

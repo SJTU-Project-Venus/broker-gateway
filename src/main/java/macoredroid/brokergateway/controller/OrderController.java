@@ -1,15 +1,19 @@
 package macoredroid.brokergateway.controller;
 
 import macoredroid.brokergateway.Domain.*;
+import macoredroid.brokergateway.Entity.LimitOrderEntity;
+import macoredroid.brokergateway.Entity.MarketOrderEntity;
+import macoredroid.brokergateway.Entity.OrderEntity;
+import macoredroid.brokergateway.Entity.StopOrderEntity;
 import macoredroid.brokergateway.RealDTO.RealCancelOrder;
 import macoredroid.brokergateway.RealDTO.RealLimitOrder;
 import macoredroid.brokergateway.RealDTO.RealMarketOrder;
 import macoredroid.brokergateway.RealDTO.RealStopOrderDTO;
-import macoredroid.brokergateway.command.IssueCancelOrderCommand;
-import macoredroid.brokergateway.command.IssueLimitOrderCommand;
-import macoredroid.brokergateway.command.IssueMarketOrderCommand;
-import macoredroid.brokergateway.command.IssueStopOrderCommand;
-import macoredroid.brokergateway.helper.Util;
+import macoredroid.brokergateway.command.NewCancelOrderCommand;
+import macoredroid.brokergateway.command.NewLimitOrderCommand;
+import macoredroid.brokergateway.command.NewMarketOrderCommand;
+import macoredroid.brokergateway.command.NewStopOrderCommand;
+import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.repository.*;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.slf4j.Logger;
@@ -41,14 +45,14 @@ public class OrderController {
     FutureDTORepository futureDTORepository;
 
     @PostMapping("/limitOrders")
-    public Response<LimitOrderDTO> processLimitOrder(@RequestBody RealLimitOrder ReallimitOrder){
-        LimitOrderDTO limitOrderDTO=new LimitOrderDTO();
-        BeanUtils.copyProperties(ReallimitOrder, limitOrderDTO);
-        completeOrder(limitOrderDTO);
-        limitOrderDTO.setCount(limitOrderDTO.getTotalCount());
+    public Response<LimitOrderEntity> processLimitOrder(@RequestBody RealLimitOrder ReallimitOrder){
+        LimitOrderEntity limitOrderEntity =new LimitOrderEntity();
+        BeanUtils.copyProperties(ReallimitOrder, limitOrderEntity);
+        completeOrder(limitOrderEntity);
+        limitOrderEntity.setCount(limitOrderEntity.getTotalCount());
         try{
-            commandGateway.send(new IssueLimitOrderCommand(limitOrderDTO.getMarketDepthId(), limitOrderDTO)).get();
-            LimitOrderDTO res = limitOrderDTORepository.save(limitOrderDTO);
+            commandGateway.send(new NewLimitOrderCommand(limitOrderEntity.getMarketDepthId(), limitOrderEntity)).get();
+            LimitOrderEntity res = limitOrderDTORepository.save(limitOrderEntity);
             return new Response<>(res, 200, "OK");
         }
         catch (Exception e){
@@ -58,14 +62,14 @@ public class OrderController {
 
 
     @PostMapping("/marketOrders")
-    public Response<MarketOrderDTO> processMarketOrder(@RequestBody RealMarketOrder realMarketOrder){
-        MarketOrderDTO marketOrderDTO=new MarketOrderDTO();
-        BeanUtils.copyProperties(realMarketOrder, marketOrderDTO);
-        completeOrder(marketOrderDTO);
-        marketOrderDTO.setCount(marketOrderDTO.getTotalCount());
+    public Response<MarketOrderEntity> processMarketOrder(@RequestBody RealMarketOrder realMarketOrder){
+        MarketOrderEntity marketOrderEntity =new MarketOrderEntity();
+        BeanUtils.copyProperties(realMarketOrder, marketOrderEntity);
+        completeOrder(marketOrderEntity);
+        marketOrderEntity.setCount(marketOrderEntity.getTotalCount());
         try {
-            commandGateway.send(new IssueMarketOrderCommand(marketOrderDTO.getMarketDepthId(), marketOrderDTO)).get();
-            MarketOrderDTO res = marketOrderDTORepository.save(marketOrderDTO);
+            commandGateway.send(new NewMarketOrderCommand(marketOrderEntity.getMarketDepthId(), marketOrderEntity)).get();
+            MarketOrderEntity res = marketOrderDTORepository.save(marketOrderEntity);
             return new Response<>(res, 200, "OK");
         }
         catch (Exception e){
@@ -79,7 +83,7 @@ public class OrderController {
         BeanUtils.copyProperties(realCancelOrder,cancelOrder);
         completeOrder(cancelOrder);
         try{
-            commandGateway.send(new IssueCancelOrderCommand(cancelOrder.getMarketDepthId(), cancelOrder)).get();
+            commandGateway.send(new NewCancelOrderCommand(cancelOrder.getMarketDepthId(), cancelOrder)).get();
             CancelOrder res = cancelOrderRepository.save(cancelOrder);
             return new Response<>(res, 200, "OK");
         }
@@ -89,13 +93,13 @@ public class OrderController {
     }
 
     @PostMapping("/stopOrders")
-    public Response<StopOrder> processStopOrder(@RequestBody RealStopOrderDTO realStopOrderDTO){
-        StopOrder stopOrder=new StopOrder();
-        BeanUtils.copyProperties(realStopOrderDTO, stopOrder);
-        completeOrder(stopOrder);
+    public Response<StopOrderEntity> processStopOrder(@RequestBody RealStopOrderDTO realStopOrderDTO){
+        StopOrderEntity stopOrderEntity =new StopOrderEntity();
+        BeanUtils.copyProperties(realStopOrderDTO, stopOrderEntity);
+        completeOrder(stopOrderEntity);
         try{
-            commandGateway.send(new IssueStopOrderCommand(stopOrder.getMarketDepthId(), stopOrder)).get();
-            StopOrder res = stopOrderRepository.save(stopOrder);
+            commandGateway.send(new NewStopOrderCommand(stopOrderEntity.getMarketDepthId(), stopOrderEntity)).get();
+            StopOrderEntity res = stopOrderRepository.save(stopOrderEntity);
             return new Response<>(res, 200, "OK");
         }
         catch (Exception e){
@@ -103,13 +107,13 @@ public class OrderController {
         }
     }
 
-    private void completeOrder(OrderDTO orderDTO) {
+    private void completeOrder(OrderEntity orderEntity) {
         String id = UUID.randomUUID().toString();
-        orderDTO.setId(id);
+        orderEntity.setId(id);
         String creationTime = Util.getDate(new Date());
-        orderDTO.setCreationTime(creationTime);
-        orderDTO.setStatus(Status.WAITING);
-        orderDTO.setMarketDepthId( futureDTORepository.findFutureDTOByNameEquals(orderDTO.getFutureName()).getMarketDepthId());
+        orderEntity.setCreationTime(creationTime);
+        orderEntity.setStatus(Status.WAITING);
+        orderEntity.setMarketDepthId( futureDTORepository.findFutureDTOByNameEquals(orderEntity.getFutureName()).getMarketDepthId());
 
     }
 }

@@ -1,14 +1,14 @@
 package macoredroid.brokergateway.event;
 
-import macoredroid.brokergateway.Domain.FutureDTO;
+import macoredroid.brokergateway.Entity.FutureEntity;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 public class IssueFutureEvent {
     @TargetAggregateIdentifier
     final String id;
-    final FutureDTO future;
+    final FutureEntity future;
 
-    public IssueFutureEvent(String id, FutureDTO future) {
+    public IssueFutureEvent(String id, FutureEntity future) {
         this.id = id;
         this.future = future;
     }
@@ -17,7 +17,7 @@ public class IssueFutureEvent {
         return id;
     }
 
-    public FutureDTO getFutureDTO() {
+    public FutureEntity getFutureDTO() {
         return future;
     }
 }

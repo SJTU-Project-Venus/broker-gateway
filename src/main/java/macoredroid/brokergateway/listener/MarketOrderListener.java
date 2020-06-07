@@ -4,9 +4,9 @@ import macoredroid.brokergateway.event.IssueMarketOrderEvent;
 import macoredroid.brokergateway.event.MarketOrderCancelledEvent;
 import macoredroid.brokergateway.event.MarketOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToMarketOrderConvertedEvent;
-import macoredroid.brokergateway.Domain.MarketOrderDTO;
+import macoredroid.brokergateway.Entity.MarketOrderEntity;
 import macoredroid.brokergateway.Domain.Status;
-import macoredroid.brokergateway.helper.Util;
+import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.repository.MarketOrderDTORepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +21,28 @@ public class MarketOrderListener {
 
     @EventHandler
     public void on(IssueMarketOrderEvent issueMarketOrderEvent){
-        MarketOrderDTO marketOrderDTO = issueMarketOrderEvent.getMarketOrderDTO();
-        marketOrderDTORepository.save(marketOrderDTO);
+        MarketOrderEntity marketOrderEntity = issueMarketOrderEvent.getMarketOrderEntity();
+        marketOrderDTORepository.save(marketOrderEntity);
     }
 
     @EventHandler
     public void on(MarketOrderCountDecreasedEvent marketOrderCountDecreasedEvent){
-        MarketOrderDTO marketOrderDTO = marketOrderCountDecreasedEvent.getMarketOrderDTO();
-        marketOrderDTO.setStatusSwitchTime(Util.getDate(new Date()));
-        marketOrderDTORepository.save(marketOrderDTO);
+        MarketOrderEntity marketOrderEntity = marketOrderCountDecreasedEvent.getMarketOrderEntity();
+        marketOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        marketOrderDTORepository.save(marketOrderEntity);
     }
 
     @EventHandler
     public void on(MarketOrderCancelledEvent marketOrderCancelledEvent){
-        MarketOrderDTO marketOrderDTO = marketOrderDTORepository.findMarketOrderDTOById(marketOrderCancelledEvent.getMarketOrderId());
-        marketOrderDTO.setStatus(Status.CANCELLED);
-        marketOrderDTO.setStatusSwitchTime(Util.getDate(new Date()));
-        marketOrderDTORepository.save(marketOrderDTO);
+        MarketOrderEntity marketOrderEntity = marketOrderDTORepository.findMarketOrderDTOById(marketOrderCancelledEvent.getMarketOrderId());
+        marketOrderEntity.setStatus(Status.CANCELLED);
+        marketOrderEntity.setStatusSwitchTime(Util.getDate(new Date()));
+        marketOrderDTORepository.save(marketOrderEntity);
     }
 
     @EventHandler
     public void on(StopOrderToMarketOrderConvertedEvent stopOrderToMarketOrderConvertedEvent){
-        MarketOrderDTO marketOrderDTO = stopOrderToMarketOrderConvertedEvent.getMarketOrderDTO();
-        marketOrderDTORepository.save(marketOrderDTO);
+        MarketOrderEntity marketOrderEntity = stopOrderToMarketOrderConvertedEvent.getMarketOrderEntity();
+        marketOrderDTORepository.save(marketOrderEntity);
     }
 }

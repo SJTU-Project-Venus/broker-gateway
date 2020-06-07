@@ -1,14 +1,14 @@
 package macoredroid.brokergateway.repository;
 
 import macoredroid.brokergateway.Domain.Status;
-import macoredroid.brokergateway.Domain.StopOrder;
+import macoredroid.brokergateway.Entity.StopOrderEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface StopOrderRepository extends MongoRepository<StopOrder, String> {
-    public StopOrder findStopOrderById(String id);
-    public List<StopOrder> findStopOrdersByCreationTimeEqualsAndStatusEquals(String date, Status status);
+public interface StopOrderRepository extends MongoRepository<StopOrderEntity, String> {
+    public StopOrderEntity findStopOrderById(String id);
+    public List<StopOrderEntity> findStopOrdersByCreationTimeEqualsAndStatusEquals(String date, Status status);
 }

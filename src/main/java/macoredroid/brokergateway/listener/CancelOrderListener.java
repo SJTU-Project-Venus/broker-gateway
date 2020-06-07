@@ -3,7 +3,7 @@ package macoredroid.brokergateway.listener;
 import macoredroid.brokergateway.event.CancelOrderFinishedEvent;
 import macoredroid.brokergateway.event.IssueCancelOrderEvent;
 import macoredroid.brokergateway.Domain.CancelOrder;
-import macoredroid.brokergateway.helper.Util;
+import macoredroid.brokergateway.Util;
 import macoredroid.brokergateway.repository.CancelOrderRepository;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.springframework.beans.factory.annotation.Autowired;
