@@ -1,15 +1,17 @@
 package macoredroid.brokergateway.core;
 
+import lombok.Data;
+import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.Domain.*;
-import macoredroid.brokergateway.Domain.NoBuyerLimitOrder;
-import macoredroid.brokergateway.Domain.NoSellerLimitOrder;
 import macoredroid.brokergateway.Entity.MarketDepthEntity;
 import macoredroid.brokergateway.Entity.OrderBlotterEntity;
 import macoredroid.brokergateway.Entity.StopOrderEntity;
-import macoredroid.brokergateway.command.*;
-import macoredroid.brokergateway.event.*;
-import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.EntityConvert;
+import macoredroid.brokergateway.command.NewCancelOrderCommand;
+import macoredroid.brokergateway.command.NewLimitOrderCommand;
+import macoredroid.brokergateway.command.NewMarketOrderCommand;
+import macoredroid.brokergateway.command.NewStopOrderCommand;
+import macoredroid.brokergateway.event.*;
 import macoredroid.brokergateway.model.Status;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -54,6 +56,7 @@ public class MarketDepth {
         return convert.convertFrom(this);
     }
 
+    @Data
     private static class OrderPriceComposite {
         int price;
         List<LimitOrder> limitOrders;
@@ -65,22 +68,6 @@ public class MarketDepth {
             this.price = limitOrder.getUnitPrice();
             this.limitOrders = new ArrayList<>();
             this.limitOrders.add(limitOrder);
-        }
-
-        int getPrice() {
-            return price;
-        }
-
-        void setPrice(int price) {
-            this.price = price;
-        }
-
-        List<LimitOrder> getLimitOrders() {
-            return limitOrders;
-        }
-
-        void setLimitOrders(List<LimitOrder> limitOrders) {
-            this.limitOrders = limitOrders;
         }
 
         void addOrder(LimitOrder order) {
@@ -220,7 +207,6 @@ public class MarketDepth {
 
     @EventSourcingHandler
     public void on(IssueMarketOrderEvent issueMarketOrderEvent){
-        // insert into waiting queue;
         MarketOrder marketOrder = issueMarketOrderEvent.getMarketOrderEntity().convertToMarketOrder();
         insertIntoMarketOrders(marketOrder);
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
@@ -247,7 +233,6 @@ public class MarketDepth {
     }
 
     private int binaryFindIndex(int price, List<OrderPriceComposite> waitingComposites) {
-        //TODO 使用二分查找
         for (int i = 0; i < waitingComposites.size(); ++i) {
             if (waitingComposites.get(i).getPrice() >= price) return i;
         }
@@ -357,14 +342,6 @@ public class MarketDepth {
     }
 
     protected MarketDepth() {
-
-    }
-
-    private void clearMarket() {
-        buyers.clear();
-        sellers.clear();
-        marketOrders.clear();
-        stopOrderEntities.clear();
 
     }
 }

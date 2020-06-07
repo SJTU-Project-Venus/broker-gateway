@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MarketOrderDTORepository extends MongoRepository<MarketOrderEntity, String> {
+public interface MarketOrderRepository extends MongoRepository<MarketOrderEntity, String> {
     public MarketOrderEntity findMarketOrderDTOById(String id);
     public List<MarketOrderEntity> findMarketOrderDTOSByCreationTimeEqualsAndStatusEquals(String date, Status status);
 }

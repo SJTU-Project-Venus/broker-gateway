@@ -1,8 +1,8 @@
 package macoredroid.brokergateway.listener;
 
 import macoredroid.brokergateway.event.MarketDepthFixedEvent;
-import macoredroid.brokergateway.repository.FutureDTORepository;
-import macoredroid.brokergateway.repository.MarketDepthDTORepository;
+import macoredroid.brokergateway.repository.FutureRepository;
+import macoredroid.brokergateway.repository.MarketDepthRepository;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.JsonObject;
 import org.axonframework.eventhandling.EventHandler;
@@ -18,9 +18,9 @@ import java.util.Date;
 public class MarketDepthListener {
     Logger logger = LoggerFactory.getLogger(MarketDepthListener.class);
     @Autowired
-    MarketDepthDTORepository marketDepthDTORepository;
+    MarketDepthRepository marketDepthRepository;
     @Autowired
-    FutureDTORepository futureDTORepository;
+    FutureRepository futureRepository;
 
     @Autowired
     RabbitTemplate rabbitTemplate;
@@ -36,12 +36,12 @@ public class MarketDepthListener {
         logger.info("jsonObject: {}", jsonObject.toString());
 
         //rabbitTemplate.convertAndSend("marketDepth", "marketDepth", jsonObject.toString());
-        marketDepthDTORepository.save(marketDepthFixedEvent.getMarketDepthEntity());
+        marketDepthRepository.save(marketDepthFixedEvent.getMarketDepthEntity());
     }
 
 
     //@Cacheable(key = "#p0")
     public String getFutureName(String marketDepthId){
-        return futureDTORepository.findFutureDTOByMarketDepthIdEquals(marketDepthId).getName();
+        return futureRepository.findFutureDTOByMarketDepthIdEquals(marketDepthId).getName();
     }
 }

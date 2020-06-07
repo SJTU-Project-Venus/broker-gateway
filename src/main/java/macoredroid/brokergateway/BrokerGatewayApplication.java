@@ -17,7 +17,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 @SpringBootApplication
-public class BrokergatewayDddApplication {
+public class BrokerGatewayApplication {
     public static ApplicationContext ac;
     @Bean
     public SpringAggregateSnapshotter snapshotter(
@@ -37,7 +37,7 @@ public class BrokergatewayDddApplication {
     }
 
     public static void main(String[] args) {
-        ac = SpringApplication.run(BrokergatewayDddApplication.class, args);
+        ac = SpringApplication.run(BrokerGatewayApplication.class, args);
     }
 
 }

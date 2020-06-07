@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MarketDepthDTORepository extends MongoRepository<MarketDepthEntity, String> {
+public interface MarketDepthRepository extends MongoRepository<MarketDepthEntity, String> {
 
 }

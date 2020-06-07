@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LimitOrderDTORepository extends MongoRepository<LimitOrderEntity, String> {
+public interface LimitOrderRepository extends MongoRepository<LimitOrderEntity, String> {
     public LimitOrderEntity findLimitOrderDTOById(String id);
     public List<LimitOrderEntity> findLimitOrderDTOSByCreationTimeEqualsAndStatusEquals(String creationTime, Status status);
 }

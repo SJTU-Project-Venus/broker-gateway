@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.listener;
 
 import macoredroid.brokergateway.event.IssueOrderBlotterEvent;
-import macoredroid.brokergateway.repository.OrderBlotterDTORepository;
+import macoredroid.brokergateway.repository.OrderBlotterRepository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderBlotterListener {
     @Autowired
-    OrderBlotterDTORepository orderBlotterDTORepository;
+    OrderBlotterRepository orderBlotterRepository;
 
     @EventHandler
     public void on(IssueOrderBlotterEvent issueOrderBlotterEvent){
-        orderBlotterDTORepository.save(issueOrderBlotterEvent.getOrderBlotterEntity());
+        orderBlotterRepository.save(issueOrderBlotterEvent.getOrderBlotterEntity());
     }
 }

@@ -36,15 +36,15 @@ public class OrderController {
     @Autowired
     CommandGateway commandGateway;
     @Autowired
-    LimitOrderDTORepository limitOrderDTORepository;
+    LimitOrderRepository limitOrderRepository;
     @Autowired
-    MarketOrderDTORepository marketOrderDTORepository;
+    MarketOrderRepository marketOrderRepository;
     @Autowired
     CancelOrderRepository cancelOrderRepository;
     @Autowired
     StopOrderRepository stopOrderRepository;
     @Autowired
-    FutureDTORepository futureDTORepository;
+    FutureRepository futureRepository;
 
     @PostMapping("/limitOrders")
     public Response<LimitOrderEntity> processLimitOrder(@RequestBody LimitOrderDTO reallimitOrderDTO){
@@ -54,7 +54,7 @@ public class OrderController {
         limitOrderEntity.setCount(limitOrderEntity.getTotalCount());
         try{
             commandGateway.send(new NewLimitOrderCommand(limitOrderEntity.getMarketDepthId(), limitOrderEntity)).get();
-            LimitOrderEntity res = limitOrderDTORepository.save(limitOrderEntity);
+            LimitOrderEntity res = limitOrderRepository.save(limitOrderEntity);
             return new Response<>(res, 200, "OK");
         }
         catch (Exception e){
@@ -71,7 +71,7 @@ public class OrderController {
         marketOrderEntity.setCount(marketOrderEntity.getTotalCount());
         try {
             commandGateway.send(new NewMarketOrderCommand(marketOrderEntity.getMarketDepthId(), marketOrderEntity)).get();
-            MarketOrderEntity res = marketOrderDTORepository.save(marketOrderEntity);
+            MarketOrderEntity res = marketOrderRepository.save(marketOrderEntity);
             return new Response<>(res, 200, "OK");
         }
         catch (Exception e){
@@ -115,7 +115,7 @@ public class OrderController {
         String creationTime = DateUtil.getDate(new Date());
         orderEntity.setCreationTime(creationTime);
         orderEntity.setStatus(Status.WAITING);
-        orderEntity.setMarketDepthId( futureDTORepository.findFutureDTOByNameEquals(orderEntity.getFutureName()).getMarketDepthId());
+        orderEntity.setMarketDepthId( futureRepository.findFutureDTOByNameEquals(orderEntity.getFutureName()).getMarketDepthId());
 
     }
 }
