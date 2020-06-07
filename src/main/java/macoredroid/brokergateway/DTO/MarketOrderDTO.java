@@ -11,6 +11,5 @@ public class MarketOrderDTO {
     private Status status;
     private int totalCount;
     private String futureName;
-    private String clientId;
 
 }

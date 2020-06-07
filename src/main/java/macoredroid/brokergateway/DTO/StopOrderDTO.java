@@ -21,6 +21,4 @@ public class StopOrderDTO {
 
     private String traderName;
 
-    private String clientId;
-
 }

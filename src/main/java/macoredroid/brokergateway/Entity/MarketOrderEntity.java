@@ -36,6 +36,5 @@ public class MarketOrderEntity implements OrderEntity {
     private Status status;
     private int totalCount;
     private String futureName;
-    private String clientId;
     private String statusSwitchTime;
 }
