@@ -47,9 +47,13 @@ public class OrderController {
     FutureRepository futureRepository;
 
     @PostMapping("/limitOrders")
-    public Response<LimitOrderEntity> processLimitOrder(@RequestBody LimitOrderDTO reallimitOrderDTO){
+    public Response<LimitOrderEntity> processLimitOrder(@RequestBody LimitOrderDTO limitOrderDTO){
+        if(futureRepository.findFutureDTOByNameEquals(limitOrderDTO.getFutureName())==null)
+        {
+            return new Response<>(null, 404, "No such future");
+        }
         LimitOrderEntity limitOrderEntity =new LimitOrderEntity();
-        BeanUtils.copyProperties(reallimitOrderDTO, limitOrderEntity);
+        BeanUtils.copyProperties(limitOrderDTO, limitOrderEntity);
         completeOrder(limitOrderEntity);
         limitOrderEntity.setCount(limitOrderEntity.getTotalCount());
         try{
@@ -65,6 +69,10 @@ public class OrderController {
 
     @PostMapping("/marketOrders")
     public Response<MarketOrderEntity> processMarketOrder(@RequestBody MarketOrderDTO marketOrderDTO){
+        if(futureRepository.findFutureDTOByNameEquals(marketOrderDTO.getFutureName())==null)
+        {
+            return new Response<>(null, 404, "No such future");
+        }
         MarketOrderEntity marketOrderEntity =new MarketOrderEntity();
         BeanUtils.copyProperties(marketOrderDTO, marketOrderEntity);
         completeOrder(marketOrderEntity);
@@ -81,6 +89,10 @@ public class OrderController {
 
     @PostMapping("/cancelOrders")
     public Response<CancelOrder> processCancelOrder(@RequestBody CancelOrderDTO cancelOrderDTO){
+        if(futureRepository.findFutureDTOByNameEquals(cancelOrderDTO.getFutureName())==null)
+        {
+            return new Response<>(null, 404, "No such future");
+        }
         CancelOrder cancelOrder=new CancelOrder();
         BeanUtils.copyProperties(cancelOrderDTO,cancelOrder);
         completeOrder(cancelOrder);
@@ -96,6 +108,10 @@ public class OrderController {
 
     @PostMapping("/stopOrders")
     public Response<StopOrderEntity> processStopOrder(@RequestBody StopOrderDTO stopOrderDTO){
+        if(futureRepository.findFutureDTOByNameEquals(stopOrderDTO.getFutureName())==null)
+        {
+            return new Response<>(null, 404, "No such future");
+        }
         StopOrderEntity stopOrderEntity =new StopOrderEntity();
         BeanUtils.copyProperties(stopOrderDTO, stopOrderEntity);
         completeOrder(stopOrderEntity);

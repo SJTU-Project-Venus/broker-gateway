@@ -16,6 +16,7 @@ public class FutureListener {
     public void on(IssueFutureEvent issueFutureEvent){
         FutureEntity futureEntity = issueFutureEvent.getFutureDTO();
         futureEntity.setId(issueFutureEvent.getId());
+        //no duplicate
         if(futureRepository.findFutureDTOByNameEquals(futureEntity.getName())!=null)
         {
             return;

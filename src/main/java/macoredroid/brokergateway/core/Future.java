@@ -21,6 +21,7 @@ public class Future {
     public Future(NewFutureCommand newFutureCommand){
         AggregateLifecycle.apply(new IssueFutureEvent(newFutureCommand.getId(), newFutureCommand.getFutureDTO()));
         try {
+            //new marketDepth , very important!
             AggregateLifecycle.createNew(MarketDepth.class, () -> new MarketDepth(newFutureCommand.getFutureDTO().getMarketDepthId()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -29,6 +30,7 @@ public class Future {
 
     @EventSourcingHandler
     public void on(IssueFutureEvent issueFutureEvent){
+        //copy attributes
         BeanUtils.copyProperties(issueFutureEvent.getFutureDTO(), this);
         this.id = issueFutureEvent.getId();
     }

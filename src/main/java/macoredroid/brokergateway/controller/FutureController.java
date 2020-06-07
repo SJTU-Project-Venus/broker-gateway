@@ -21,13 +21,14 @@ public class FutureController {
     @Autowired
     FutureRepository futureRepository;
     @PostMapping
-    public void addFuture(@RequestBody FutureDTO Realfuture){
-        if(futureRepository.findFutureDTOByNameEquals(Realfuture.getName())!=null)
+    public void addFuture(@RequestBody FutureDTO futureDTO){
+        //no duplicate
+        if(futureRepository.findFutureDTOByNameEquals(futureDTO.getName())!=null)
         {
             return;
         }
         FutureEntity future=new FutureEntity();
-        future.setName(Realfuture.getName());
+        future.setName(futureDTO.getName());
         future.setMarketDepthId(UUID.randomUUID().toString());
         commandGateway.send(new NewFutureCommand(UUID.randomUUID().toString(), future));
     }
