@@ -37,11 +37,11 @@ public class MarketDepth {
         public MarketDepthEntity convertFrom(MarketDepth marketDepth) {
             MarketDepthEntity marketDepthEntity = new MarketDepthEntity();
             marketDepthEntity.setId(marketDepth.id);
-            for (int i = marketDepth.buyers.size() - 1; i >= Math.max(0, marketDepth.buyers.size() - 5); i--) {
+            for (int i = marketDepth.buyers.size() - 1; i >= 0; i--) {
                 OrderPriceComposite orderPriceComposite = buyers.get(i);
                 marketDepthEntity.addBuyer(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
             }
-            for (int i = 0; i < Math.min(5, marketDepth.sellers.size()); i++) {
+            for (int i = 0; i < marketDepth.sellers.size(); i++) {
                 OrderPriceComposite orderPriceComposite = sellers.get(i);
                 marketDepthEntity.addSeller(orderPriceComposite.getLimitOrders().stream().mapToInt(LimitOrder::getCount).sum(), orderPriceComposite.getPrice());
             }
@@ -54,7 +54,7 @@ public class MarketDepth {
         return convert.convertFrom(this);
     }
 
-    private class OrderPriceComposite {
+    private static class OrderPriceComposite {
         int price;
         List<LimitOrder> limitOrders;
 
