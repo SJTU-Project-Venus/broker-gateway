@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.listener;
 
-import macoredroid.brokergateway.event.IssueFutureEvent;
+import macoredroid.brokergateway.event.NewFutureEvent;
 import macoredroid.brokergateway.Entity.FutureEntity;
 import macoredroid.brokergateway.repository.FutureRepository;
 import org.axonframework.eventhandling.EventHandler;
@@ -13,9 +13,9 @@ public class FutureListener {
     FutureRepository futureRepository;
 
     @EventHandler
-    public void on(IssueFutureEvent issueFutureEvent){
-        FutureEntity futureEntity = issueFutureEvent.getFutureDTO();
-        futureEntity.setId(issueFutureEvent.getId());
+    public void on(NewFutureEvent newFutureEvent){
+        FutureEntity futureEntity = newFutureEvent.getFutureDTO();
+        futureEntity.setId(newFutureEvent.getId());
         //no duplicate
         if(futureRepository.findFutureDTOByNameEquals(futureEntity.getName())!=null)
         {

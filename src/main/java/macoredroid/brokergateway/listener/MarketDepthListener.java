@@ -28,7 +28,7 @@ public class MarketDepthListener {
     @EventHandler
     public void on(MarketDepthFixedEvent marketDepthFixedEvent){
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("marketQuotation", JSON.toJSONString(marketDepthFixedEvent.getMarketQuotation()));
+        jsonObject.addProperty("marketQuotation", JSON.toJSONString(marketDepthFixedEvent.getMarketPrice()));
         jsonObject.addProperty("marketDepth", JSON.toJSONString(marketDepthFixedEvent.getMarketDepthEntity()));
         jsonObject.addProperty("marketDepthId", marketDepthFixedEvent.getId());
         jsonObject.addProperty("timestamp", new Date().getTime());

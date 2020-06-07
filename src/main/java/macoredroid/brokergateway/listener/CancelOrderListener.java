@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.listener;
 
 import macoredroid.brokergateway.event.CancelOrderFinishedEvent;
-import macoredroid.brokergateway.event.IssueCancelOrderEvent;
+import macoredroid.brokergateway.event.NewCancelOrderEvent;
 import macoredroid.brokergateway.Domain.CancelOrder;
 import macoredroid.brokergateway.DateUtil;
 import macoredroid.brokergateway.repository.CancelOrderRepository;
@@ -17,8 +17,8 @@ public class CancelOrderListener {
     CancelOrderRepository cancelOrderRepository;
 
     @EventSourcingHandler
-    public void on(IssueCancelOrderEvent issueCancelOrderEvent){
-        cancelOrderRepository.save(issueCancelOrderEvent.getCancelOrder());
+    public void on(NewCancelOrderEvent newCancelOrderEvent){
+        cancelOrderRepository.save(newCancelOrderEvent.getCancelOrder());
     }
 
     @EventSourcingHandler

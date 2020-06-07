@@ -2,7 +2,7 @@ package macoredroid.brokergateway.event;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class IssueMarketDepthEvent {
+public class NewMarketDepthEvent {
     @TargetAggregateIdentifier
     final String id;
 
@@ -10,7 +10,7 @@ public class IssueMarketDepthEvent {
         return id;
     }
 
-    public IssueMarketDepthEvent(String id) {
+    public NewMarketDepthEvent(String id) {
         this.id = id;
     }
 }

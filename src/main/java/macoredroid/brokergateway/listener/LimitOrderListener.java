@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.listener;
 
-import macoredroid.brokergateway.event.IssueLimitOrderEvent;
+import macoredroid.brokergateway.event.NewLimitOrderEvent;
 import macoredroid.brokergateway.event.LimitOrderCancelledEvent;
 import macoredroid.brokergateway.event.LimitOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToLimitOrderConvertedEvent;
@@ -23,15 +23,13 @@ public class LimitOrderListener {
     LimitOrderRepository limitOrderRepository;
 
     @EventHandler
-    public void on(IssueLimitOrderEvent limitOrderEvent){
-        //logger.info("LimitOrder saved into repository");
+    public void on(NewLimitOrderEvent limitOrderEvent){
         LimitOrderEntity limitOrderEntity = limitOrderEvent.getLimitOrderEntity();
         limitOrderRepository.save(limitOrderEntity);
     }
 
     @EventHandler
     public void on(LimitOrderCountDecreasedEvent limitOrderCountDecreasedEvent){
-        //logger.info("LimitOrder decrease count");
         LimitOrderEntity limitOrderEntity = limitOrderCountDecreasedEvent.getLimitOrderEntity();
         limitOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         limitOrderRepository.save(limitOrderEntity);
@@ -39,7 +37,6 @@ public class LimitOrderListener {
 
     @EventHandler
     public void on(LimitOrderCancelledEvent limitOrderCancelledEvent){
-        //logger.info("LimitOrder decrease count");
         LimitOrderEntity limitOrderEntity = limitOrderRepository.findLimitOrderDTOById(limitOrderCancelledEvent.getLimitOrderId());
         limitOrderEntity.setStatusSwitchTime(DateUtil.getDate(new Date()));
         limitOrderEntity.setStatus(Status.CANCELLED);

@@ -3,11 +3,11 @@ package macoredroid.brokergateway.event;
 import macoredroid.brokergateway.Entity.MarketOrderEntity;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-public class IssueMarketOrderEvent {
+public class NewMarketOrderEvent {
     @TargetAggregateIdentifier
     String marketDepthId;
     MarketOrderEntity marketOrderEntity;
-    public IssueMarketOrderEvent(String marketDepthId, MarketOrderEntity marketOrderEntity) {
+    public NewMarketOrderEvent(String marketDepthId, MarketOrderEntity marketOrderEntity) {
         this.marketDepthId = marketDepthId;
         this.marketOrderEntity = marketOrderEntity;
     }

@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.listener;
 
-import macoredroid.brokergateway.event.IssueMarketOrderEvent;
+import macoredroid.brokergateway.event.NewMarketOrderEvent;
 import macoredroid.brokergateway.event.MarketOrderCancelledEvent;
 import macoredroid.brokergateway.event.MarketOrderCountDecreasedEvent;
 import macoredroid.brokergateway.event.StopOrderToMarketOrderConvertedEvent;
@@ -20,8 +20,8 @@ public class MarketOrderListener {
     MarketOrderRepository marketOrderRepository;
 
     @EventHandler
-    public void on(IssueMarketOrderEvent issueMarketOrderEvent){
-        MarketOrderEntity marketOrderEntity = issueMarketOrderEvent.getMarketOrderEntity();
+    public void on(NewMarketOrderEvent newMarketOrderEvent){
+        MarketOrderEntity marketOrderEntity = newMarketOrderEvent.getMarketOrderEntity();
         marketOrderRepository.save(marketOrderEntity);
     }
 

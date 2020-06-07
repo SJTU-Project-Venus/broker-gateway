@@ -1,7 +1,7 @@
 package macoredroid.brokergateway.core;
 
 import macoredroid.brokergateway.command.NewFutureCommand;
-import macoredroid.brokergateway.event.IssueFutureEvent;
+import macoredroid.brokergateway.event.NewFutureEvent;
 import lombok.Data;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -19,7 +19,7 @@ public class Future {
 
     @CommandHandler
     public Future(NewFutureCommand newFutureCommand){
-        AggregateLifecycle.apply(new IssueFutureEvent(newFutureCommand.getId(), newFutureCommand.getFutureDTO()));
+        AggregateLifecycle.apply(new NewFutureEvent(newFutureCommand.getId(), newFutureCommand.getFutureDTO()));
         try {
             //new marketDepth , very important!
             AggregateLifecycle.createNew(MarketDepth.class, () -> new MarketDepth(newFutureCommand.getFutureDTO().getMarketDepthId()));
@@ -29,10 +29,10 @@ public class Future {
     }
 
     @EventSourcingHandler
-    public void on(IssueFutureEvent issueFutureEvent){
+    public void on(NewFutureEvent newFutureEvent){
         //copy attributes
-        BeanUtils.copyProperties(issueFutureEvent.getFutureDTO(), this);
-        this.id = issueFutureEvent.getId();
+        BeanUtils.copyProperties(newFutureEvent.getFutureDTO(), this);
+        this.id = newFutureEvent.getId();
     }
 
     protected Future(){

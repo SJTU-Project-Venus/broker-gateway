@@ -1,6 +1,6 @@
 package macoredroid.brokergateway.listener;
 
-import macoredroid.brokergateway.event.IssueStopOrderEvent;
+import macoredroid.brokergateway.event.NewStopOrderEvent;
 import macoredroid.brokergateway.event.StopOrderCancelledEvent;
 import macoredroid.brokergateway.event.StopOrderConvertedEvent;
 import macoredroid.brokergateway.model.Status;
@@ -22,8 +22,8 @@ public class StopOrderListener {
     StopOrderRepository stopOrderRepository;
 
     @EventHandler
-    public void on(IssueStopOrderEvent issueStopOrderEvent){
-        stopOrderRepository.save(issueStopOrderEvent.getStopOrderEntity());
+    public void on(NewStopOrderEvent newStopOrderEvent){
+        stopOrderRepository.save(newStopOrderEvent.getStopOrderEntity());
     }
 
     @EventHandler

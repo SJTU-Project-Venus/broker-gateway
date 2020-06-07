@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.UUID;
 @Data
 @Document
-public class MarketQuotation {
+public class MarketPrice {
     private float lastClosePrice;
     private float openPrice;
     private float closePrice;
@@ -19,24 +19,19 @@ public class MarketQuotation {
     private float currentPrice;
     private float changePrice;
     private float changePercent;
-    private int totalVolume;
-    private int totalCapital;
-    private int totalShare = 1000000;
-    private float turnoverRate;
+
     private String date;
     private String marketDepthId;
     private String currentTime;
     @Id
     private String id;
 
-    public MarketQuotation(String currentDate, float lastClosePrice, String marketDepthId){
+    public MarketPrice(String currentDate, float lastClosePrice, String marketDepthId){
         setDate(currentDate);
         setLastClosePrice(lastClosePrice);
         setOpenPrice(0);
         setHighPrice(0);
         setLowPrice(0);
-        setTotalVolume(0);
-        setTotalCapital(0);
         setCurrentTime(currentDate+" 01:00:00");
         setId(UUID.randomUUID().toString());
         setMarketDepthId(marketDepthId);
@@ -52,15 +47,11 @@ public class MarketQuotation {
 
     public void update(OrderBlotterEntity orderBlotter){
         float price = orderBlotter.getPrice();
-        int volume = orderBlotter.getCount();
         String time = orderBlotter.getCreationTime();
         setCurrentTime(time);
-        setTotalVolume(totalVolume+volume);
-        setTotalCapital((int)(totalCapital+volume*price));
         setCurrentPrice(price);
         setChangePrice(currentPrice - lastClosePrice);
         setChangePercent(changePrice / lastClosePrice);
-        setTurnoverRate(totalVolume/totalShare);
         if(openPrice == 0){
             setOpenPrice(price);
             setLowPrice(price);
@@ -74,20 +65,20 @@ public class MarketQuotation {
         }
     }
 
-    public MarketQuotation() {
+    public MarketPrice() {
     }
 
-    public MarketQuotation(MarketQuotation other){
+    public MarketPrice(MarketPrice other){
         this.openPrice = other.getClosePrice();
         this.id = UUID.randomUUID().toString();
         this.marketDepthId = other.getMarketDepthId();
         this.date = DateUtil.getNowDate();
     }
 
-    public MarketQuotation clone(){
-        MarketQuotation marketQuotation = new MarketQuotation();
-        BeanUtils.copyProperties(this, marketQuotation);
-        return marketQuotation;
+    public MarketPrice clone(){
+        MarketPrice marketPrice = new MarketPrice();
+        BeanUtils.copyProperties(this, marketPrice);
+        return marketPrice;
     }
 
 

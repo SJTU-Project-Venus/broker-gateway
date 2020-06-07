@@ -84,7 +84,7 @@ public class MarketDepth {
     private List<OrderPriceComposite> buyers;
     private List<MarketOrder> marketOrders;
     private List<StopOrderEntity> stopOrderEntities;
-    private MarketQuotation marketQuotation;
+    private MarketPrice marketPrice;
 
     private LimitOrder getFirstBuyer(){
         if (buyers.size() == 0) return new NoBuyerLimitOrder();
@@ -111,55 +111,55 @@ public class MarketDepth {
     }
 
     public MarketDepth(String id) {
-        AggregateLifecycle.apply(new IssueMarketDepthEvent(id));
+        AggregateLifecycle.apply(new NewMarketDepthEvent(id));
     }
 
     @CommandHandler
     public void handle(NewLimitOrderCommand issueLimitOrderCommand){
-        AggregateLifecycle.apply(new IssueLimitOrderEvent(id, issueLimitOrderCommand.getLimitOrderEntity()));
+        AggregateLifecycle.apply(new NewLimitOrderEvent(id, issueLimitOrderCommand.getLimitOrderEntity()));
     }
 
     @CommandHandler
     public void handle(NewMarketOrderCommand issueMarketOrderCommand){
-        AggregateLifecycle.apply(new IssueMarketOrderEvent(id, issueMarketOrderCommand.getMarketOrderEntity()));
+        AggregateLifecycle.apply(new NewMarketOrderEvent(id, issueMarketOrderCommand.getMarketOrderEntity()));
     }
 
     @CommandHandler
     public void handle(NewCancelOrderCommand newCancelOrderCommand){
-        AggregateLifecycle.apply(new IssueCancelOrderEvent(id, newCancelOrderCommand.getCancelOrder()));
+        AggregateLifecycle.apply(new NewCancelOrderEvent(id, newCancelOrderCommand.getCancelOrder()));
     }
 
     @CommandHandler
     public void handle(NewStopOrderCommand newStopOrderCommand){
-        AggregateLifecycle.apply(new IssueStopOrderEvent(id, newStopOrderCommand.getStopOrderEntity()));
+        AggregateLifecycle.apply(new NewStopOrderEvent(id, newStopOrderCommand.getStopOrderEntity()));
     }
 
     @EventSourcingHandler
-    public void on(IssueMarketDepthEvent issueMarketDepthEvent) {
-        this.id = issueMarketDepthEvent.getId();
+    public void on(NewMarketDepthEvent newMarketDepthEvent) {
+        this.id = newMarketDepthEvent.getId();
         this.buyers = new ArrayList<>();
         this.sellers = new ArrayList<>();
         this.marketOrders = new ArrayList<>();
         this.stopOrderEntities = new ArrayList<>();
-        this.marketQuotation = new MarketQuotation(DateUtil.getNowDate(), 0, id);
+        this.marketPrice = new MarketPrice(DateUtil.getNowDate(), 0, id);
     }
 
     @EventSourcingHandler
-    public void on(IssueLimitOrderEvent issueLimitOrderEvent){
-        LimitOrder limitOrder = issueLimitOrderEvent.getLimitOrderEntity().convertToLimitOrder();
+    public void on(NewLimitOrderEvent newLimitOrderEvent){
+        LimitOrder limitOrder = newLimitOrderEvent.getLimitOrderEntity().convertToLimitOrder();
         insertIntoWaitingQueue(limitOrder, limitOrder.isBuyer() ? buyers : sellers);
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
     @EventSourcingHandler
-    public void on(IssueStopOrderEvent issueStopOrderEvent){
-        stopOrderEntities.add(issueStopOrderEvent.getStopOrderEntity());
+    public void on(NewStopOrderEvent newStopOrderEvent){
+        stopOrderEntities.add(newStopOrderEvent.getStopOrderEntity());
         dealWithStopOrders();
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
     @EventSourcingHandler
-    public void on(IssueCancelOrderEvent event){
+    public void on(NewCancelOrderEvent event){
         CancelOrder cancelOrder = event.getCancelOrder();
         Status status = Status.FAILURE;
         switch (cancelOrder.getTargetType()){
@@ -175,7 +175,7 @@ public class MarketDepth {
                 break;
             case LimitOrder:
                 List<OrderPriceComposite> waitingComposites = cancelOrder.isBuyer() ? buyers : sellers;
-                int index = binaryFindIndex(cancelOrder.getUnitPrice(), waitingComposites);
+                int index = FindIndex(cancelOrder.getUnitPrice(), waitingComposites);
                 if (index == waitingComposites.size() || waitingComposites.get(index).getPrice() != cancelOrder.getUnitPrice())
                     break;
                 else {
@@ -206,8 +206,8 @@ public class MarketDepth {
     }
 
     @EventSourcingHandler
-    public void on(IssueMarketOrderEvent issueMarketOrderEvent){
-        MarketOrder marketOrder = issueMarketOrderEvent.getMarketOrderEntity().convertToMarketOrder();
+    public void on(NewMarketOrderEvent newMarketOrderEvent){
+        MarketOrder marketOrder = newMarketOrderEvent.getMarketOrderEntity().convertToMarketOrder();
         insertIntoMarketOrders(marketOrder);
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
@@ -224,15 +224,11 @@ public class MarketDepth {
     }
 
     private void insertIntoWaitingQueue(LimitOrder order, List<OrderPriceComposite> waitingComposites) {
-        int index = binaryFindIndex(order, waitingComposites);
+        int index = FindIndex(order.getUnitPrice(), waitingComposites);
         insertIntoWaitingQueue(order, waitingComposites, index);
     }
 
-    private int binaryFindIndex(LimitOrder order, List<OrderPriceComposite> waitingComposites) {
-        return binaryFindIndex(order.getUnitPrice(), waitingComposites);
-    }
-
-    private int binaryFindIndex(int price, List<OrderPriceComposite> waitingComposites) {
+    private int FindIndex(int price, List<OrderPriceComposite> waitingComposites) {
         for (int i = 0; i < waitingComposites.size(); ++i) {
             if (waitingComposites.get(i).getPrice() >= price) return i;
         }
@@ -242,7 +238,7 @@ public class MarketDepth {
     @EventSourcingHandler
     public void on(MarketDepthChangedEvent marketDepthChangedEvent) {
         dealWithStopOrders();
-        if (isFixed()) AggregateLifecycle.apply(new MarketDepthFixedEvent(id, convertToMarketDepthDTO(), marketQuotation.clone()));
+        if (isFixed()) AggregateLifecycle.apply(new MarketDepthFixedEvent(id, convertToMarketDepthDTO(), marketPrice.clone()));
         else if (canMarketOrderDone()){
             MarketOrder marketOrder = getFirstMarketOrder();
             LimitOrder limitOrder = marketOrder.isBuyer() ? getFirstSeller() : getFirstBuyer();
@@ -257,7 +253,7 @@ public class MarketDepth {
 
     // cur >= buy_limit or cur <= sell_limit
     private void dealWithStopOrders() {
-        int currentPrice = (int)marketQuotation.getCurrentPrice();
+        int currentPrice = (int) marketPrice.getCurrentPrice();
         int buyerCurrentComparePrice = currentPrice == 0 ? Integer.MIN_VALUE :
                 currentPrice;
         int sellerCurrentComparePrice = currentPrice == 0 ? Integer.MAX_VALUE :
@@ -291,8 +287,8 @@ public class MarketDepth {
         decreaseLimitOrderCount(limitOrder, delta);
         OrderBlotterEntity orderBlotterEntity = marketOrder.isBuyer() ? OrderBlotterEntity.createOrderBlotter(delta, limitOrder.getUnitPrice(), marketOrder.convertToMarketOrderDTO(), limitOrder.convertToLimitOrderDTO(), this.id) :
                 OrderBlotterEntity.createOrderBlotter(delta, limitOrder.getUnitPrice(), limitOrder.convertToLimitOrderDTO(), marketOrder.convertToMarketOrderDTO(), this.id);
-        marketQuotation.update(orderBlotterEntity);
-        AggregateLifecycle.apply(new IssueOrderBlotterEvent(id, orderBlotterEntity));
+        marketPrice.update(orderBlotterEntity);
+        AggregateLifecycle.apply(new NewOrderBlotterEvent(id, orderBlotterEntity));
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
@@ -302,8 +298,8 @@ public class MarketDepth {
         decreaseLimitOrderCount(buyer_order, delta);
         decreaseLimitOrderCount(seller_order, delta);
         OrderBlotterEntity orderBlotterEntity = OrderBlotterEntity.createOrderBlotter(delta, calculatePrice(buyer_order, seller_order), buyer_order.convertToLimitOrderDTO(), seller_order.convertToLimitOrderDTO(), this.id);
-        marketQuotation.update(orderBlotterEntity);
-        AggregateLifecycle.apply(new IssueOrderBlotterEvent(id, orderBlotterEntity));
+        marketPrice.update(orderBlotterEntity);
+        AggregateLifecycle.apply(new NewOrderBlotterEvent(id, orderBlotterEntity));
         AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
