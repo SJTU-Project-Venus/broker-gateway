@@ -16,4 +16,6 @@ public class LimitOrderDTO {
 
     private String traderName;
 
+    private String otherId;
+
 }

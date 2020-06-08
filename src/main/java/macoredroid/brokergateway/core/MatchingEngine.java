@@ -161,39 +161,34 @@ public class MatchingEngine {
         switch (cancelOrder.getTargetType()){
             case MarketOrder:
                 for (MarketOrder marketOrder : marketOrders){
-                    if (marketOrder.getId().equals(cancelOrder.getTargetId())){
+                    if (marketOrder.getOtherId().equals(cancelOrder.getTargetId())){
                         marketOrders.remove(marketOrder);
                         status = Status.FINISHED;
                         AggregateLifecycle.apply(new MarketOrderCancelledEvent(id, marketOrder.getId()));
-                        break;
                     }
                 }
                 break;
             case LimitOrder:
-                List<OrderPriceComposite> waitingComposites = cancelOrder.isBuyer() ? buyers : sellers;
-                int index = FindIndex(cancelOrder.getUnitPrice(), waitingComposites);
-                if (index == waitingComposites.size() || waitingComposites.get(index).getPrice() != cancelOrder.getUnitPrice())
-                    break;
-                else {
+                List<OrderPriceComposite> waitingComposites = buyers;
+                waitingComposites.addAll(sellers);
+                for(int index=0;index<waitingComposites.size();index++){
                     List<LimitOrder> limitOrders = waitingComposites.get(index).getLimitOrders();
                     for (LimitOrder limitOrder : limitOrders){
-                        if (limitOrder.getId().equals(cancelOrder.getTargetId())) {
+                        if (limitOrder.getOtherId().equals(cancelOrder.getTargetId())) {
                             limitOrders.remove(limitOrder);
                             if (limitOrders.isEmpty()) waitingComposites.remove(index);
                             status = Status.FINISHED;
                             AggregateLifecycle.apply(new LimitOrderCancelledEvent(id, limitOrder.getId()));
-                            break;
                         }
                     }
                 }
                 break;
             case StopOrder:
                 for (StopOrderEntity stopOrderEntity : stopOrderEntities){
-                    if (stopOrderEntity.getId().equals(cancelOrder.getTargetId())){
+                    if (stopOrderEntity.getOtherId().equals(cancelOrder.getTargetId())){
                         stopOrderEntities.remove(stopOrderEntity);
                         status = Status.FINISHED;
                         AggregateLifecycle.apply(new StopOrderCancelledEvent(id, stopOrderEntity.getId()));
-                        break;
                     }
                 }
                 break;

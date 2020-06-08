@@ -38,6 +38,7 @@ public class MarketOrder {
     private String creationTime;
     private int totalCount;
     private String traderName;
+    private String otherId;
 
 
 

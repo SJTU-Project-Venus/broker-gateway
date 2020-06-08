@@ -35,6 +35,7 @@ public class LimitOrder {
     private String creationTime;
     private String traderName;
     private String futureName;
+    private String otherId;
 
     public void decreaseCount(int delta){
         this.count -= delta;
