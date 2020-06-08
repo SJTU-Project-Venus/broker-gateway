@@ -12,16 +12,16 @@ import org.springframework.stereotype.Repository;
 public class CancelOrder implements OrderEntity {
     @Id
     String id;
-    Type targetType;
-    int unitPrice;
-    Side side;
-    String targetId;
+    Type targetType=Type.LimitOrder;
+    int unitPrice=0;
+    Side side=Side.BUYER;
+    String targetId="";
     private String futureName;
-    String marketDepthId;
-    Status status;
-    String creationTime;
-    String traderName;
-    String statusSwitchTime;
+    String marketDepthId="";
+    Status status=Status.WAITING;
+    String creationTime="";
+    String traderName="";
+    String statusSwitchTime="";
 
     public boolean isBuyer(){
         return this.side.equals(Side.BUYER);

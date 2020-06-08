@@ -173,7 +173,8 @@ public class MatchingEngine {
                 waitingComposites.addAll(sellers);
                 for(int index=0;index<waitingComposites.size();index++){
                     List<LimitOrder> limitOrders = waitingComposites.get(index).getLimitOrders();
-                    for (LimitOrder limitOrder : limitOrders){
+                    List<LimitOrder> temp=new ArrayList<>(limitOrders);
+                    for (LimitOrder limitOrder : temp){
                         if (limitOrder.getOtherId().equals(cancelOrder.getTargetId())) {
                             limitOrders.remove(limitOrder);
                             if (limitOrders.isEmpty()) waitingComposites.remove(index);
@@ -193,7 +194,9 @@ public class MatchingEngine {
                 }
                 break;
         }
+
         AggregateLifecycle.apply(new CancelOrderFinishedEvent(id, cancelOrder.getId(), status));
+        AggregateLifecycle.apply(new MarketDepthChangedEvent(id));
     }
 
     @EventSourcingHandler
