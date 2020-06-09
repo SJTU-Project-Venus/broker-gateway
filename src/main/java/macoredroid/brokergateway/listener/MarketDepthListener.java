@@ -35,12 +35,10 @@ public class MarketDepthListener {
         jsonObject.addProperty("futureName", getFutureName(marketDepthFixedEvent.getId()) );
         logger.info("jsonObject: {}", jsonObject.toString());
 
-        //rabbitTemplate.convertAndSend("marketDepth", "marketDepth", jsonObject.toString());
+        rabbitTemplate.convertAndSend("marketDepth", "marketDepth", jsonObject.toString());
         marketDepthRepository.save(marketDepthFixedEvent.getMarketDepthEntity());
     }
 
-
-    //@Cacheable(key = "#p0")
     public String getFutureName(String marketDepthId){
         return futureRepository.findFutureDTOByMarketDepthIdEquals(marketDepthId).getName();
     }
