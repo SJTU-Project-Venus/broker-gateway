@@ -11,4 +11,9 @@ public class RabbitMQConfig {
     Exchange exchange(){
         return new DirectExchange("marketDepth");
     }
+
+    @Bean
+    Exchange exchange1(){
+        return new DirectExchange("finishedOrder");
+    }
 }
