@@ -13,4 +13,5 @@ public interface OrderEntity {
     public void setStatus(Status waiting);
     public String getFutureName();
     public void setMarketDepthId(String marketDepthId);
+    public String getOtherId();
 }
