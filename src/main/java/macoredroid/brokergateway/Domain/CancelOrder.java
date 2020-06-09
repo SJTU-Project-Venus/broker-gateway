@@ -22,6 +22,7 @@ public class CancelOrder implements OrderEntity {
     String creationTime="";
     String traderName="";
     String statusSwitchTime="";
+    private String traderDetailName;
 
     public boolean isBuyer(){
         return this.side.equals(Side.BUYER);

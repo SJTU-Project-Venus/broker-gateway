@@ -10,5 +10,6 @@ public class MarketOrderDTO {
     private int totalCount;
     private String futureName;
     private String otherId;
+    private String traderDetailName;
 
 }

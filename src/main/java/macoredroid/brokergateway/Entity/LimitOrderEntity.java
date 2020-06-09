@@ -36,6 +36,7 @@ public class LimitOrderEntity implements OrderEntity {
     private Status status;
     private String creationTime;
     private String traderName;
+    private String traderDetailName;
     private String statusSwitchTime;
     private String otherId;
 }

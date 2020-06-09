@@ -18,4 +18,6 @@ public class LimitOrderDTO {
 
     private String otherId;
 
+    private String traderDetailName;
+
 }

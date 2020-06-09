@@ -33,6 +33,7 @@ public class MarketOrderEntity implements OrderEntity {
     private Side side;
     private String creationTime;
     private String traderName;
+    private String traderDetailName;
     private Status status;
     private int totalCount;
     private String futureName;

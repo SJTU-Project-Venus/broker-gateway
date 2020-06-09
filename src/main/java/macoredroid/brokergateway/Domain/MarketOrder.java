@@ -39,6 +39,7 @@ public class MarketOrder {
     private int totalCount;
     private String traderName;
     private String otherId;
+    private String traderDetailName;
 
 
 

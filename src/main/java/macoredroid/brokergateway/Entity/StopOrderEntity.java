@@ -26,6 +26,7 @@ public class StopOrderEntity implements OrderEntity {
     Status status;
     private String creationTime;
     private String traderName;
+    private String traderDetailName;
     private String statusSwitchTime;
     private String otherId;
 

@@ -9,6 +9,7 @@ public class CancelOrderDTO {
     String targetId;
     Type targetType;
     private String futureName;
+    private String traderDetailName;
 
 
 }
