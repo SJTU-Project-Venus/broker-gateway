@@ -30,17 +30,4 @@ steps:
         - master
 
 
-services:
-  - name: mongo
-    image: mongo:3.4
-    command: [ --smallfiles ]
-    ports:
-      - 27017
-  - name: redis
-    image: redis
-
-volumes:
-  - name: maven-cache
-    host:
-      path: /maven-cache
 
