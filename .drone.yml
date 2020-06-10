@@ -30,5 +30,8 @@ steps:
       branch:
         - master
 
-
+volumes:
+  - name: maven-cache
+    host:
+      path: /maven-cache
 
