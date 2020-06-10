@@ -8,12 +8,13 @@ steps:
       - name: maven-cache
         path: /root/.m2
     commands:
-      - sleep 15
+      - sleep 5
       - chmod +x ./mvnw && ./mvnw test -Dspring.profiles.active=droneCI && ./mvnw clean package -Dspring.profiles.active=droneCI
     when:
       branch:
         - master
         - dev
+
 
 
   - name: docker
