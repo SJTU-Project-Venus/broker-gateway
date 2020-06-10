@@ -22,7 +22,7 @@ steps:
     settings:
       username: macoredroid
       password:
-        from_secret: dockerhub_secrets
+        from_secret: macoredroid
       repo: macoredroid/broker-gateway
       tags:
         - v1.0.0
