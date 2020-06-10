@@ -13,7 +13,6 @@ steps:
     when:
       branch:
         - master
-        - master-*
         - dev
 
 
@@ -23,12 +22,12 @@ steps:
       username: wwwumr
       password:
         from_secret: dockerhub_secrets
-      repo: wwwumr/trader-gateway
+      repo: macoredroid/broker-gateway
       tags:
-        - v1.0.1
+        - v1.0.0
     when:
       branch:
-        - master-*
+        - master
 
 services:
   - name: mongo
