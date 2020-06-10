@@ -1,5 +1,5 @@
 kind: pipeline
-name: trader-gateway
+name: broker-gateway
 
 steps:
   - name: test
