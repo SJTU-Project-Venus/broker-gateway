@@ -13,7 +13,6 @@ steps:
     when:
       branch:
         - master
-        - master-*
         - dev
 
 
@@ -21,14 +20,15 @@ steps:
     image: plugins/docker
     settings:
       username: macoredroid
-      password: 
+      password:
         from_secret: dockerhub_secrets
       repo: macoredroid/broker-gateway
       tags:
-        - v1.0.1
+        - v1.0.0
     when:
       branch:
-        - master-*
+        - master
+
 
 services:
   - name: mongo
