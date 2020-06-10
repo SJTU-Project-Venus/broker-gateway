@@ -1,30 +1,46 @@
-pipeline:
-  build:
-    image: registry.cn-hangzhou.aliyuncs.com/acs/maven
-    commands:
-      - mvn clean package -DskipTests
-    volumes:
-      - /root/maven/repository:/root/.m2/repository
-      - /root/maven/settings.xml:/usr/share/maven/conf/settings.xml
-  
-  publish:
-    image: docker
-    secrets: [docker_username,docker_password]
-    commands:
-        - docker login --username=$DOCKER_USERNAME --password=$DOCKER_PASSWORD registry-vpc.cn-shenzhen.aliyuncs.com/pipipan/broker-gateway
-        - docker build -t registry-vpc.cn-shenzhen.aliyuncs.com/pipipan/broker-gateway:master -f Dockerfile .
-        - docker push registry-vpc.cn-shenzhen.aliyuncs.com/pipipan/broker-gateway:master
-    volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-    when:
-        branch: master
-        status: success
+kind: pipeline
+name: trader-gateway
 
-  deploy:
-    image: appleboy/drone-ssh
-    host: 202.120.40.8
-    secrets: [ssh_username, ssh_password]
-    port: 30250
-    script:
-      - /root/shell/deployment.sh broker-gateway 30251
+steps:
+  - name: test
+    image: openjdk:8-jdk-alpine
+    volumes:
+      - name: maven-cache
+        path: /root/.m2
+    commands:
+      - sleep 15
+      - chmod +x ./mvnw && ./mvnw test -Dspring.profiles.active=droneCI && ./mvnw clean package -Dspring.profiles.active=droneCI
+    when:
+      branch:
+        - master
+        - master-*
+        - dev
+
+
+  - name: docker
+    image: plugins/docker
+    settings:
+      username: wwwumr
+      password:
+        from_secret: dockerhub_secrets
+      repo: wwwumr/trader-gateway
+      tags:
+        - v1.0.1
+    when:
+      branch:
+        - master-*
+
+services:
+  - name: mongo
+    image: mongo:3.4
+    command: [ --smallfiles ]
+    ports:
+      - 27017
+  - name: redis
+    image: redis
+
+volumes:
+  - name: maven-cache
+    host:
+      path: /maven-cache
 

@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>macoredroid</groupId>
-    <artifactId>brokergateway-ddd</artifactId>
+    <artifactId>broker-gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>brokergateway</name>
+    <name>broker-gateway</name>
     <description>broker-gateway</description>
 
     <properties>
