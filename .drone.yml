@@ -21,7 +21,7 @@ steps:
     image: plugins/docker
     settings:
       username: macoredroid
-      password: c7o2r1e4
+      password: 
         from_secret: dockerhub_secrets
       repo: macoredroid/broker-gateway
       tags:
