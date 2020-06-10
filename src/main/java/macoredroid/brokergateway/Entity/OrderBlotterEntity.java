@@ -25,12 +25,14 @@ public class OrderBlotterEntity {
     private String sellerTraderDetailName;
     private String buyerOtherId;
     private String sellerOtherId;
+    private String futureName;
 
     public static OrderBlotterEntity createOrderBlotter(int delta, int price, OrderEntity buyer, OrderEntity seller, String marketDepthId){
         OrderBlotterEntity orderBlotterEntity = new OrderBlotterEntity();
         orderBlotterEntity.setId(UUID.randomUUID().toString());
         orderBlotterEntity.setCount(delta);
         orderBlotterEntity.setPrice(price);
+        orderBlotterEntity.setFutureName(buyer.getFutureName());
         orderBlotterEntity.setCreationTime(DateUtil.getDate(new Date()));
         orderBlotterEntity.setBuyerTraderName(buyer.getTraderName());
         orderBlotterEntity.setBuyerTraderDetailName(buyer.getTraderDetailName());
