@@ -24,7 +24,7 @@ steps:
       username: macoredroid
       password:
         from_secret: macoredroid
-      repo: macoredroid/broker-gateway
+      repo: registry.cn-hangzhou.aliyuncs.com/macoredroid/broker-gateway
       tags:
         - v1.0.3
     when:
