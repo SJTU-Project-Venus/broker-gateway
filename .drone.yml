@@ -21,7 +21,7 @@ steps:
   - name: docker
     image: plugins/docker
     settings:
-      username: macoredroid
+      username: zhiyuanma0401
       password:
         from_secret: macoredroid
       repo: registry.cn-hangzhou.aliyuncs.com/macoredroid/broker-gateway
