@@ -12,7 +12,9 @@ steps:
     when:
       branch:
         - master
+        - master-*
         - dev
+        - fix-*
 
 
 
@@ -27,7 +29,7 @@ steps:
         - v1.0.0
     when:
       branch:
-        - master
+        - master-*
 
 volumes:
   - name: maven-cache
