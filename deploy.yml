@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: broker-gateway
-        image: macoredroid/broker-gateway:v1.0.1
+        image: macoredroid/broker-gateway:v1.0.2
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
