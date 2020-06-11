@@ -25,6 +25,7 @@ steps:
       password:
         from_secret: macoredroid
       repo: registry.cn-hangzhou.aliyuncs.com/macoredroid/broker-gateway
+      registry: registry.cn-hangzhou.aliyuncs.com
       tags:
         - v1.0.3
     when:
