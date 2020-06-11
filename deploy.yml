@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: broker-gateway
+spec:
+  serviceName: broker-gateway
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker-gateway
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "true"
+      labels:
+        app: broker-gateway
+    spec:
+      containers:
+      - name: broker-gateway
+        image: macoredroid/broker-gateway:v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
