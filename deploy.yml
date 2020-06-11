@@ -1,9 +1,8 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: broker-gateway
 spec:
-  serviceName: broker-gateway
   replicas: 1
   selector:
     matchLabels:
@@ -17,7 +16,7 @@ spec:
     spec:
       containers:
       - name: broker-gateway
-        image: macoredroid/broker-gateway:v1.0.2
+        image: macoredroid/broker-gateway:v1.0.3
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
