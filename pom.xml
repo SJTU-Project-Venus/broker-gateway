@@ -62,6 +62,10 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.bevis</groupId>-->
+<!--            <artifactId>quickfix-common</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
